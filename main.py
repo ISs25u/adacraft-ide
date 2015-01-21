@@ -89,7 +89,7 @@ def editfile_submit():
     # create a backup
     tnow = datetime.datetime.now()
     oldtxt = io.open("%s/%s" %(JSDIR, fname), "r", encoding=ENCODING).read()
-    io.open("%s/%s-pre-%s" %(BKDIR, fname, tnow.isoformat()), "w", encoding=ENCODING).write(oldtxt)
+    io.open("%s/%s-pre-%s" %(BKDIR, fname.replace('/', '-'), tnow.isoformat()), "w", encoding=ENCODING).write(oldtxt)
 
     # Now overwrite the file we want to save
     io.open("%s/%s" %(JSDIR, fname), "w", encoding=ENCODING).write(unicode(txt,encoding = ENCODING))
