@@ -14,21 +14,15 @@ from cork import Cork
 # Use users.json and roles.json in the local example_conf directory
 auth = Cork('auth')
 
-#@bottle.route('/login', method='GET')
-#def login_form():
-#    return '''
-#    <form method="POST">
-#    <p> Username: <input name="user">
-#    <p> Password: <input name="pwd" type="password" value="">
-#    <p> <input type="submit" value="Login">
-#    </form> 
-#    '''
-
-@bottle.route('/login')
-@bottle.view('login_form')
+@bottle.route('/login', method='GET')
 def login_form():
-    """Serve login form"""
-    return {}
+    return '''
+    <form method="POST">
+    <p> Username: <input name="username">
+    <p> Password: <input name="password" type="password" value="">
+    <p> <input type="submit" value="Login">
+    </form> 
+    '''
 
 def postd():
     return bottle.request.forms

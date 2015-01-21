@@ -27,13 +27,9 @@ def populate_conf_directory():
     cork._store._savejson('roles', cork._store.roles)
 
     tstamp = str(datetime.utcnow())
-    print "Change the usernames and passwords in the code"
-    exit()
-    makeuser(cork, 'admin', 'CHANGEME', tstamp)
-    makeuser(cork, 'someuser', 'CHANGEME', tstamp)
-    makeuser(cork, 'woohoo', 'CHANGEME', tstamp)
+    makeuser(cork, 'admin', 'admin', tstamp)
     
-    cork._store._save_users()
+    cork._store.save_users()
 
 if __name__ == '__main__':
     populate_conf_directory()
