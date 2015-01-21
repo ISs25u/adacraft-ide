@@ -48,20 +48,22 @@ def edit():
     files = glob.glob("%s/**/*.js" % (JSDIR,))
     fnames = ["/".join(f.split("/")[1:]) for f in files]
 
-    ftxt = "\n".join(['<li><a href="file/%s">%s</a></li>' % (fn, fn) for fn in fnames])
+    ftxt = "\n".join(['<li><a href="file?file=%s">%s</a></li>' % (fn, fn) for fn in fnames])
 
     html = get_html_file("content/template/edit.html")
     
     return string.Template(html).substitute(flist = ftxt)
     
     
-@route("/edit/file/<path>/<filename>")
-def editfile(path, filename):
+@route("/edit/file")
+def editfile():
     "lists files we might want to edit"
     #html = get_html_file("content/template/editfile.html")
+    fname = request.query.file
+
     html = get_html_file("content/template/editfile_ace.html")
-    cont = get_html_file("%s/%s/%s" % (JSDIR, path, filename))
-    return string.Template(html).substitute(fname = ("%s/%s" % (path, filename)), content = cont)
+    cont = get_html_file("%s/%s" % (JSDIR, fname))
+    return string.Template(html).substitute(fname = fname, content = cont)
 
 
 @route("/edit/ace/<filename>")
