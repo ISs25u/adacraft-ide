@@ -24,7 +24,6 @@ import io                   # Better alternative for unicode files.
 import bottle
 from bottle import route, static_file, template, redirect, request, post, get
 from beaker.middleware import SessionMiddleware
-import auth
 import glob
 import string
 import datetime
@@ -45,7 +44,6 @@ def get_html_file(fname):
 @route("/edit/")
 def edit():
     "lists files we might want to edit"
-    auth.req_admin()
 
     files = glob.glob("%s/*.js" % (JSDIR,))
     fnames = [f.split("/")[-1] for f in files]
@@ -60,7 +58,6 @@ def edit():
 @route("/edit/file/<filename>")
 def editfile(filename):
     "lists files we might want to edit"
-    auth.req_admin()
     #html = get_html_file("content/template/editfile.html")
     html = get_html_file("content/template/editfile_ace.html")
     cont = get_html_file("%s/%s" % (JSDIR, filename))
@@ -70,7 +67,6 @@ def editfile(filename):
 @route("/edit/ace/<filename>")
 def edit_ace_file(filename):
     "serves the ace files"
-    auth.req_admin()
     cont = get_html_file("%s/%s" % (ACEDIR, filename))
     return cont
 
@@ -78,13 +74,11 @@ def edit_ace_file(filename):
 # Maybe not needed anymore
 @get('/edit/sfile')
 def editfile_hidden():
-    auth.req_admin()
     return ""
 
 @post('/edit/sfile')
 def editfile_submit():
     "Handles 'save file'"
-    auth.req_admin()
     print "Submitting new file"
     fname = request.forms['fname']
     txt   = request.forms['text']
@@ -103,7 +97,6 @@ def editfile_submit():
 
 @route("/logfile")
 def logfile():
-    auth.req_admin()
     html = get_html_file("content/template/logfile.html")
     cont = get_html_file("mcserver.log")
     return string.Template(html).substitute(content = cont)
