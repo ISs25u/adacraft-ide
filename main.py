@@ -30,8 +30,9 @@ import datetime
 
 ENCODING="UTF-8"
 
-JSDIR = "jsfiles"
-BKDIR = "backups"
+import os
+JSDIR = os.environ['SRCDIR']
+BKDIR = os.environ['SRCDIR'] +"-backups"
 ACEDIR = "content/ace"
 
 @route("/css/<filename>")
