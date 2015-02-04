@@ -21,6 +21,7 @@ Loaded remotely:
 
 from __future__ import unicode_literals
 import io                   # Better alternative for unicode files.
+import cgi
 import bottle
 from bottle import route, static_file, template, redirect, request, post, get
 from beaker.middleware import SessionMiddleware
@@ -64,7 +65,7 @@ def editfile():
 
     html = get_html_file("content/template/editfile_ace.html")
     cont = get_html_file("%s/%s" % (JSDIR, fname))
-    return string.Template(html).substitute(fname = fname, content = cont)
+    return string.Template(html).substitute(fname = fname, content = cgi.escape(cont))
 
 
 @route("/edit/ace/<filename>")
