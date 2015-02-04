@@ -47,7 +47,7 @@ def edit():
     "lists files we might want to edit"
 
     files = glob.glob("%s/**/*.js" % (JSDIR,))
-    fnames = ["/".join(f.split("/")[1:]) for f in files]
+    fnames = [ f[len(JSDIR):] for f in files]
 
     ftxt = "\n".join(['<li><a href="file?file=%s">%s</a></li>' % (fn, fn) for fn in fnames])
 
