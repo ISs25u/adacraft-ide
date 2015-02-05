@@ -41,22 +41,27 @@ def css_static(filename):
     return static_file(filename, root="content/css")
 
 def get_html_file(fname):
-    return io.open(fname, "r", encoding=ENCODING).read()
+    try:
+        return io.open(fname, "r", encoding=ENCODING).read()
+    except:
+        return ""
 
 @route("/edit/")
 def edit():
     "lists files we might want to edit"
 
-    files = glob.glob("%s/**/*.js" % (JSDIR,))
-    fnames = [ f[len(JSDIR):] for f in files]
-
-    ftxt = "\n".join(['<li><a href="file?file=%s">%s</a></li>' % (fn, fn) for fn in fnames])
-
+    lis=""
+    directories = glob.glob("%s/*/" % (JSDIR,))
+    dnames = [ d[len(JSDIR):] for d in directories]
+    for dn in dnames:
+        files = glob.glob("%s%s*.js" % (JSDIR,dn))
+        files.sort()
+        fnames= [ f[len(JSDIR):] for f in files]
+        lis+= "\n".join(['<li><a href="file?file=%s">%s</a></li>' % (fn, fn) for fn in fnames])
+        lis+= '\n<li>%s<input type="text" data-url="file?file=%s"></input></li>' % (dn, dn)
     html = get_html_file("content/template/edit.html")
-    
-    return string.Template(html).substitute(flist = ftxt)
-    
-    
+    return string.Template(html).substitute(flist = lis)
+
 @route("/edit/file")
 def editfile():
     "lists files we might want to edit"
@@ -90,9 +95,11 @@ def editfile_submit():
 
     # create a backup
     tnow = datetime.datetime.now()
-    oldtxt = io.open("%s/%s" %(JSDIR, fname), "r", encoding=ENCODING).read()
-    io.open("%s/%s-pre-%s" %(BKDIR, fname.replace('/', '-'), tnow.isoformat()), "w", encoding=ENCODING).write(oldtxt)
-
+    try:
+        oldtxt = io.open("%s/%s" %(JSDIR, fname), "r", encoding=ENCODING).read()
+        io.open("%s/%s-pre-%s" %(BKDIR, fname.replace('/', '-'), tnow.isoformat()), "w", encoding=ENCODING).write(oldtxt)
+    except:
+        pass
     # Now overwrite the file we want to save
     io.open("%s/%s" %(JSDIR, fname), "w", encoding=ENCODING).write(unicode(txt,encoding = ENCODING))
     
