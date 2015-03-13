@@ -13,7 +13,9 @@ Playing around with it should be fairly simple.
 
 * First, you need to edit create_auth.py to add user names and passwords. 
 * Then you need to run create_auth.py to set up authentication. 
-* Then run main.py 
+* Create players directory (or an other dir to store all players script)
+* Create one or two player dir
+* Then run `SRCDIR=players main.py`
 
 Using it should simply be a matter of pointing your editor to one of these: 
 

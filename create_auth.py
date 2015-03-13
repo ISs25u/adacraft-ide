@@ -14,9 +14,6 @@ def makeuser(cork, username, password, tstamp):
         'desc': username + ' test user',
         'creation_date': tstamp
     }
-    
-
-
 
 def populate_conf_directory():
     cork = Cork('auth', initialize=True)
@@ -28,9 +25,9 @@ def populate_conf_directory():
 
     tstamp = str(datetime.utcnow())
     makeuser(cork, 'admin', 'admin', tstamp)
-    
+
     cork._store.save_users()
 
 if __name__ == '__main__':
     populate_conf_directory()
-    
+

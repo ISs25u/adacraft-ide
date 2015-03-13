@@ -10,11 +10,11 @@ Dependencies (on a Ubuntu computer, on other systems you will need to find other
 Included in this repo:
   cork
 
-Loaded remotely:  
+Loaded remotely:
   ace   (javascript editor from ace.ajax.org)
-  jquery 
- 
- 
+  jquery
+
+
  NB/TODO:
  - security issues in the handling of filenames (both file select and save)
 """
@@ -102,7 +102,6 @@ def editfile_submit():
         pass
     # Now overwrite the file we want to save
     io.open("%s/%s" %(JSDIR, fname), "w", encoding=ENCODING).write(unicode(txt,encoding = ENCODING))
-    
     return ""
 
 
@@ -116,7 +115,7 @@ def logfile():
 # ------------------------------------------------------------
 #
 #  Mainstuff
-# 
+#
 
 # Get cork and bottle to cooperate
 session_opts = {
@@ -127,7 +126,7 @@ session_opts = {
 app = bottle.default_app()
 app = SessionMiddleware(app, session_opts)
 
-# With reloader: automatically reloads the bottle server when the python modules have been updated. 
+# With reloader: automatically reloads the bottle server when the python modules have been updated.
 #bottle.run(app=app, reloader=True, host="localhost", port=8090)
 bottle.run(app=app, reloader=True, host="0.0.0.0", port=8095)  # listens to all hosts
 
