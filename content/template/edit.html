@@ -14,17 +14,16 @@
 
 $flist
 <script type="text/javascript">
-  var elt;
   document.onkeyup = function(event) {
     if (event.keyCode != 13) return;
-    var filename = event.srcElement.value;
+    var filename = event.target.value;
     function endsWith(str, suffix) {
         return str.indexOf(suffix, str.length - suffix.length) !== -1;
     }
     if (! endsWith(filename,".js")) {
       filename = filename + ".js";
     }
-    window.location = event.srcElement.dataset.url + filename;
+    window.location = event.target.dataset.url + filename;
   }
 </script>
 
