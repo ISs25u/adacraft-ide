@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -x
+
+[[ $# -eq 1 ]] || (echo "usage: $(basename $0) <source_directory>" ; exit -1)
+
+srcdir=$(readlink -f $1)
+ownerandgroup=$(ls -ldn $srcdir | grep $srcdir | awk '{print $3 ":"$4 }')
+
+docker run --rm  -v ${srcdir}:/src -u ${ownerandgroup} -p 8095:8095 -e SRCDIR=/src scedit
+
