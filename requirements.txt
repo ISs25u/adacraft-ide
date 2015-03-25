@@ -1,4 +1,3 @@
-Beaker==1.6.4
-bottle==0.12.7
-bottle-cork==0.10
 Flask
+Flask-WTF
+

@@ -1,7 +1,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Editing $fname</title>
+    <title>Editing {{fname}}</title>
 
     <style type="text/css" media="screen">
     body {
@@ -21,21 +21,23 @@
   </head>
 
   <body>
-<p><b>Editing $fname</b></p>
+<p><b>Editing {{fname}}</b></p>
+
+
 
 <p> <a href="/edit/">Back</a>
 <input type='button' onclick='submitText()' value='Save'/>
-</p> 
+</p>
 <p id="status">File is unmodified </p>
 
 
 
 <form name="editform" id="editform" action="/edit/sfile" method="POST">
 <input type="hidden" id="form_text" name="text" value="">
-<input type="hidden" id="form_fname" name="fname" value="$fname">
+<input type="hidden" id="form_fname" name="fname" value="{{fname}}">
 </form>
 
-<pre id="editor">$content
+<pre id="editor">{{content}}
 </pre>
 
 

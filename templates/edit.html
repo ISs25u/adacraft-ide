@@ -1,18 +1,18 @@
-<html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Edit JS files</title>
-  </head>
+{% extends "base.html" %}
 
-  <body>
+{% block content %}
     <h1>Edit JS files</h1>
 
 <p> <a href="/logfile">Check logfile</a> </p> 
 
 <p> Edit one of the follwing files: </p> 
 <ul> 
-
-$flist
+  {%- for directory, files in filesByDirectory.iteritems() %}
+    {%- for path in files %}
+      <li><a href="file?file={{path}}">{{path}}</a></li>
+    {%endfor %}
+    <li>{{directory}}<input type="text" data-url="file?file={{directory}}"></input></li>
+  {%endfor %}
 <script type="text/javascript">
   document.onkeyup = function(event) {
     if (event.keyCode != 13) return;
@@ -36,5 +36,4 @@ $flist
 </ul> 
 
     <hr>
-  </body>
-</html>
+{% endblock %}
