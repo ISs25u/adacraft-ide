@@ -88,13 +88,14 @@ def _yggdrasil_invalidate(access_token):
 
 @app.route('/')
 def index():
-    if not 'client_token' in session:
-        import uuid
-        session['client_token'] = str(uuid.uuid1())
-    return render_template('index.html')
+    return redirect(url_for('edit')) 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if not 'client_token' in session:
+        import uuid
+        session['client_token'] = str(uuid.uuid1())
+
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -105,7 +106,7 @@ def login():
         else:
             flash('Could not log in to Minecraft')
 
-        return redirect(url_for('index'))
+        return redirect(url_for('edit'))
 
     return render_template(
         'login.html',
@@ -116,8 +117,8 @@ def login():
 def logout():
     if 'yggdrasil' in session and _yggdrasil_invalidate(session['yggdrasil']['accessToken']):
         session.pop('yggdrasil', None)
-        flash('Logged out') 
-    return redirect(url_for('index'))
+        flash('Logged out')
+    return redirect(url_for('edit'))
 
 @app.route("/edit/")
 def edit():

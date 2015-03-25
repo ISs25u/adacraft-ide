@@ -1,11 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
+    {% if session.yggdrasil %}
+        <p>You are logged in as <em>{{ session.yggdrasil.selectedProfile.name }}</em>
+        (<a href="/logout">Log out</a>)</p>
+    {% else %}
+        <p><a href="/login">Log in</a></p>
+    {% endif %}
     <h1>Edit JS files</h1>
 
 <p> <a href="/logfile">Check logfile</a> </p> 
 
-<p> Edit one of the follwing files: </p> 
+<p> Edit one of the following files: </p> 
 <ul> 
   {%- for directory, files in filesByDirectory.iteritems() %}
     {%- for path in files %}
@@ -28,12 +34,4 @@
 </script>
 
 </ul> 
-
-
-<p> TODO: 
-<ul> 
-<li> restore file from backup
-</ul> 
-
-    <hr>
 {% endblock %}
