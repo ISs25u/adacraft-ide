@@ -11,11 +11,10 @@ Installing and running
 ----------------------
 Playing around with it should be fairly simple. 
 
-* First, you need to edit create_auth.py to add user names and passwords. 
-* Then you need to run create_auth.py to set up authentication. 
-* Create players directory (or an other dir to store all players script)
-* Create one or two player dir
-* Then run `SRCDIR=players main.py`
+```
+pip install -r requirements.txt
+SRCDIR=path/to/players python main.py
+```
 
 Using it should simply be a matter of pointing your editor to one of these: 
 
@@ -32,19 +31,4 @@ or
 To use it with a live Minecraft server, do the following: 
 
 * Replace the file called mcserver.log with a symbolic link to the Minecraft server's logfile.
-* Modify JSDIR in main.py to point to the directory with files you want to edit. 
-
-
-Backups
--------
-The editor automatically creates a backup of the edited file every time you press save. The backups are 
-saved in "backups" (defined in main.py). 
-
-Ace
---- 
-
-This version uses a CDN version of ace. If you want to host it locally, 
-you can add it to content/ace and edit content/templates/editfile_ace.html 
-and point to /edit/ace/ace.js instead of the CDN version. 
-
 
