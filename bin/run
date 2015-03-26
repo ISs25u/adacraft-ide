@@ -4,5 +4,5 @@ set -x
 
 [[ $# -eq 1 ]] || (echo "usage: $(basename $0) <source_directory>" ; exit -1)
 
-docker run --detach=true --name=scedit -p 8095:8095 --volumes-from gnandata -e SRCDIR=/data/scriptcraft/players scedit
+docker run --detach=true --name=scedit -p 8095:5000 --volumes-from gnandata -e SRCDIR=/data/scriptcraft/players scedit
 
