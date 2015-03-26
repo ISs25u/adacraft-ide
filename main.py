@@ -113,7 +113,6 @@ def editfile():
 
 @app.route('/edit/sfile', methods = ['POST'])
 def editfile_submit():
-<<<<<<< HEAD
     "Handles save file'"
     if logged_in_player() is None:
         return "", 403
@@ -123,23 +122,6 @@ def editfile_submit():
     file = io.open("%s/%s" %(JSDIR, fname), "wt", encoding=ENCODING)
     file.write(unicode(txt))
     file.close()
-=======
-    "Handles 'save file'"
-    print "Submitting new file"
-    fname = request.forms['fname']
-    txt   = request.forms['text']
-    print "  fname", fname, "len", len(txt)
-
-    # create a backup
-    tnow = datetime.datetime.now()
-    try:
-        oldtxt = io.open("%s/%s" %(JSDIR, fname), "r", encoding=ENCODING).read()
-        io.open("%s/%s-pre-%s" %(BKDIR, fname.replace('/', '-'), tnow.isoformat()), "w", encoding=ENCODING).write(oldtxt)
-    except:
-        pass
-    # Now overwrite the file we want to save
-    io.open("%s/%s" %(JSDIR, fname), "w", encoding=ENCODING).write(unicode(txt,encoding = ENCODING))
->>>>>>> a9e72
     return ""
 
 @app.route("/logfile")
@@ -155,21 +137,5 @@ def logfile():
 #  Mainstuff
 #
 
-<<<<<<< HEAD
 if __name__ == "__main__":
     app.run(debug=True)
-=======
-# Get cork and bottle to cooperate
-session_opts = {
-    'session.type': 'cookie',
-    'session.validate_key': True,
-}
-
-app = bottle.default_app()
-app = SessionMiddleware(app, session_opts)
-
-# With reloader: automatically reloads the bottle server when the python modules have been updated.
-#bottle.run(app=app, reloader=True, host="localhost", port=8090)
-bottle.run(app=app, reloader=True, host="0.0.0.0", port=8095)  # listens to all hosts
-
->>>>>>> a9e72
