@@ -43,3 +43,5 @@ def invalidate(authenticate_response):
         print error
         return False
 
+def player_name(authentication_response):
+    return authentication_response["selectedProfile"]["name"]

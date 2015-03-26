@@ -38,6 +38,12 @@ def get_file_content(fname):
     except:
         return ""
 
+def logged_in_player():
+    if 'yggdrasil' in session:
+        return yggdrasil.player_name(session['yggdrasil'])
+    else:
+        return None
+
 class LoginForm(Form):
     username = StringField('username', validators=[DataRequired()])
     password = PasswordField('username', validators=[DataRequired()])
@@ -102,12 +108,15 @@ def editfile():
     return render_template(
         'editfile_ace.html',
         fname = fname,
+        player_name = logged_in_player(),
         content = get_file_content("%s/%s" % (JSDIR, fname))
     )
 
 @app.route('/edit/sfile', methods = ['POST'])
 def editfile_submit():
     "Handles save file'"
+    if logged_in_player() is None:
+        return "", 403
     fname = request.form['fname']
     txt   = request.form['text']
     print "Submitting file %s" % fname

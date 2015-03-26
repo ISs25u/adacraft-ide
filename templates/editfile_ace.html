@@ -28,7 +28,13 @@
 <p> <a href="/edit/">Back</a>
 <input type='button' onclick='submitText()' value='Save'/>
 </p>
-<p id="status">File is unmodified </p>
+<p id="status">
+{% if player_name is none %}
+You need <a href="/login">log in<a> to edit this file.
+{% else %}
+File is unmodified
+{% endif %}
+</p>
 
 
 
@@ -58,6 +64,9 @@ function submitText()
 }
 
 var editor = ace.edit("editor");
+{% if player_name is none %}
+editor.setReadOnly(true);
+{% endif %}
 editor.setTheme("ace/theme/twilight");
 editor.getSession().setMode("ace/mode/javascript");
 document.getElementById('editor').style.fontSize='18px';
