@@ -30,6 +30,7 @@ import yggdrasil
 
 ENCODING="UTF-8"
 JSDIR = os.environ['SRCDIR']
+DEBUG = 'DEBUG' in os.environ
 
 def get_file_content(fname):
     try:
@@ -138,4 +139,4 @@ def logfile():
 #
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=DEBUG)
