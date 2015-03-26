@@ -20,8 +20,6 @@ import glob
 import string
 import datetime
 import os
-import urllib2
-import json
 import random
 
 from flask import Flask, request, session, render_template, flash, redirect, url_for
@@ -29,6 +27,7 @@ from flask.ext.wtf import Form
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import DataRequired
 
+import yggdrasil
 
 ENCODING="UTF-8"
 JSDIR = os.environ['SRCDIR']
@@ -47,61 +46,19 @@ app = Flask(__name__)
 app.wtf_csrf_enabled = False
 app.secret_key = os.urandom(24)
 
-def _yggdrasil_request(payload, endpoint):
-    req = urllib2.Request(
-        url='https://authserver.mojang.com/%s' % endpoint,
-        data=json.dumps(payload),
-        headers={"Content-Type": "application/json"}
-    )
-
-    try:
-        return json.loads(urllib2.urlopen(req).read())
-    except ValueError:
-        return None
-
-def _yggdrasil_authenticate(username, password):
-        payload = {
-                "agent": {
-                        "name": "Minecraft",
-                        "version": 1,
-                },
-                "username": username,
-                "password": password,
-                "clientToken": session['client_token'],
-        }
-
-        try:
-            return _yggdrasil_request(payload, 'authenticate')
-        except urllib2.HTTPError:
-            return None
-
-def _yggdrasil_invalidate(access_token):
-        payload = {
-                "accessToken": access_token,
-                "clientToken": session['client_token'],
-        }
-
-        try:
-            return _yggdrasil_request(payload, 'invalidate') == None
-        except urllib2.HTTPError:
-            return False
-
 @app.route('/')
 def index():
     return redirect(url_for('edit')) 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if not 'client_token' in session:
-        import uuid
-        session['client_token'] = str(uuid.uuid1())
-
     form = LoginForm()
 
     if form.validate_on_submit():
-        session['yggdrasil'] = _yggdrasil_authenticate(form.username.data, form.password.data)
-
-        if session['yggdrasil']:
+        response = yggdrasil.authenticate(form.username.data, 
+                                          form.password.data)
+        if response is not None:
+            session['yggdrasil'] = response
             flash('Logged in to Minecraft')
         else:
             flash('Could not log in to Minecraft')
@@ -115,7 +72,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    if 'yggdrasil' in session and _yggdrasil_invalidate(session['yggdrasil']['accessToken']):
+    if 'yggdrasil' in session and yggdrasil.invalidate(session['yggdrasil']):
         session.pop('yggdrasil', None)
         flash('Logged out')
     return redirect(url_for('edit'))
