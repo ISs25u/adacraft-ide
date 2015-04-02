@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% if session.yggdrasil %}
-        <p>You are logged in as <em>{{ session.yggdrasil.selectedProfile.name }}</em>
+    {% if session.player %}
+        <p>You are logged in as <em>{{ session.player}}</em>
         (<a href="/logout">Log out</a>)</p>
-    {% else %}
-        <p><a href="/login">Log in</a></p>
     {% endif %}
     <h1>Edit JS files</h1>
 

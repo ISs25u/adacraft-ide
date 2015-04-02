@@ -31,6 +31,7 @@ import yggdrasil
 ENCODING="UTF-8"
 JSDIR = os.environ['SRCDIR']
 DEBUG = 'DEBUG' in os.environ
+SECRET = os.environ['SECRET']
 
 def get_file_content(fname):
     try:
@@ -39,8 +40,8 @@ def get_file_content(fname):
         return ""
 
 def logged_in_player():
-    if 'yggdrasil' in session:
-        return yggdrasil.player_name(session['yggdrasil'])
+    if 'player' in session:
+        return session['player']
     else:
         return None
 
@@ -56,30 +57,24 @@ app.secret_key = os.urandom(24)
 def index():
     return redirect(url_for('edit')) 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
+@app.route('/auth/<token>')
+def auth(token):
+    import auth;
+    import base64;
+    token = base64.b64decode(token)
+    if auth.verify(token, SECRET):
+        login = auth.readLogin(token)
+        session['player']= login;
+        flash('Logged in as %s' % login)
+    else:
+        flash('Invalid token')
 
-    if form.validate_on_submit():
-        response = yggdrasil.authenticate(form.username.data, 
-                                          form.password.data)
-        if response is not None:
-            session['yggdrasil'] = response
-            flash('Logged in to Minecraft')
-        else:
-            flash('Could not log in to Minecraft')
-
-        return redirect(url_for('edit'))
-
-    return render_template(
-        'login.html',
-        form=form
-    )
+    return redirect(url_for('edit'))
 
 @app.route('/logout')
 def logout():
-    if 'yggdrasil' in session and yggdrasil.invalidate(session['yggdrasil']):
-        session.pop('yggdrasil', None)
+    if 'player' in session: 
+        session.pop('player', None)
         flash('Logged out')
     return redirect(url_for('edit'))
 
