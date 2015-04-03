@@ -88,31 +88,32 @@ def edit():
     for dn in dnames:
         files = glob.glob("%s%s*.js" % (JSDIR,dn))
         files.sort()
-        fnames[dn]= [ f[len(JSDIR):] for f in files]
+        fnames[dn]= [ f[len(JSDIR)+1:] for f in files]
     return render_template(
         'edit.html',
         filesByDirectory = fnames
     )
 
-@app.route("/edit/file")
-def editfile():
+@app.route("/edit/<playername>/<filename>")
+def editfile(playername, filename):
     "edit the content of a file"
 
-    fname = request.args.get("file")
+    fname = playername + '/' + filename;
 
     return render_template(
         'editfile_ace.html',
         fname = fname,
-        player_name = logged_in_player(),
+        logged_in_player = logged_in_player(),
+        can_save = logged_in_player() == playername,
         content = get_file_content("%s/%s" % (JSDIR, fname))
     )
 
-@app.route('/edit/sfile', methods = ['POST'])
-def editfile_submit():
+@app.route('/edit/<playername>/<filename>', methods = ['POST'])
+def editfile_submit(playername, filename):
     "Handles save file'"
-    if logged_in_player() is None:
+    if logged_in_player() != playername:
         return "", 403
-    fname = request.form['fname']
+    fname = playername + '/' + filename;
     txt   = request.form['text']
     print "Submitting file %s" % fname
     file = io.open("%s/%s" %(JSDIR, fname), "wt", encoding=ENCODING)

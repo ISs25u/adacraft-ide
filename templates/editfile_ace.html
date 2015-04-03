@@ -25,12 +25,14 @@
 
 
 
+{% if can_save %}
 <p> <a href="/edit/">Back</a>
 <input type='button' onclick='submitText()' value='Save'/>
 </p>
+{% endif %}
 <p id="status">
-{% if player_name is none %}
-You need <a href="/login">log in<a> to edit this file.
+{% if not can_save %}
+You can't change this file.
 {% else %}
 File is unmodified
 {% endif %}
@@ -38,9 +40,8 @@ File is unmodified
 
 
 
-<form name="editform" id="editform" action="/edit/sfile" method="POST">
+<form name="editform" id="editform" action="/edit/{{fname}}" method="POST">
 <input type="hidden" id="form_text" name="text" value="">
-<input type="hidden" id="form_fname" name="fname" value="{{fname}}">
 </form>
 
 <pre id="editor">{{content}}
@@ -54,9 +55,8 @@ File is unmodified
 function submitText()
 {
    var txt=editor.getValue();
-   var fname=document.getElementById("form_fname").value;
-
-   jQuery.post("/edit/sfile", { fname : fname, text : txt}, 
+   var action = document.getElementById("editform").action;
+   jQuery.post(action, { text : txt }, 
       function(data, txtStatus) {
          document.getElementById("status").innerHTML = "File is saved";
       }
@@ -64,7 +64,7 @@ function submitText()
 }
 
 var editor = ace.edit("editor");
-{% if player_name is none %}
+{% if not can_save %}
 editor.setReadOnly(true);
 {% endif %}
 editor.setTheme("ace/theme/twilight");
