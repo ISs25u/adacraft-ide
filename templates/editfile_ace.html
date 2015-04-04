@@ -18,27 +18,29 @@
     </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
     </script>
+    <script src="/static/beautify.js">
+    </script>
   </head>
 
   <body>
-<p><b>Editing {{fname}}</b></p>
-
-
-
-{% if can_save %}
-<p> <a href="/edit/">Back</a>
-<input type='button' onclick='submitText()' value='Save'/>
-</p>
-{% endif %}
-<p id="status">
+<p><b>Editing {{fname}}</b>
+<span id="status">
 {% if not can_save %}
-You can't change this file.
+(not yours)
 {% else %}
-File is unmodified
+(saved)
 {% endif %}
+</span>
 </p>
-
-
+<p> <a href="/edit/">Back</a>
+<p>
+<input type='button' 
+{% if not can_save %}
+disabled
+{% endif %}
+onclick='submitText()' value='Save'/>
+<input type='button' onclick='clean()' value='Clean'/>
+</p>
 
 <form name="editform" id="editform" action="/edit/{{fname}}" method="POST">
 <input type="hidden" id="form_text" name="text" value="">
@@ -52,13 +54,17 @@ File is unmodified
 <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="text/javascript">
+function clean() {
+  editor.setValue(js_beautify(editor.getValue()));
+}
+
 function submitText()
 {
    var txt=editor.getValue();
    var action = document.getElementById("editform").action;
    jQuery.post(action, { text : txt }, 
       function(data, txtStatus) {
-         document.getElementById("status").innerHTML = "File is saved";
+         document.getElementById("status").innerHTML = "(saved)";
       }
    );
 }
@@ -71,9 +77,11 @@ editor.setTheme("ace/theme/twilight");
 editor.getSession().setMode("ace/mode/javascript");
 document.getElementById('editor').style.fontSize='18px';
 
+{% if can_save %}
 editor.getSession().on('change', function(e) {
-   document.getElementById("status").innerHTML = "File is modified";     
+   document.getElementById("status").innerHTML = "(altered)";
 });
+{% endif %}
 </script>
 
   </body>

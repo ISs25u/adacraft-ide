@@ -26,8 +26,6 @@ from flask.ext.wtf import Form
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import DataRequired
 
-import yggdrasil
-
 ENCODING="UTF-8"
 JSDIR = os.environ['SRCDIR']
 DEBUG = 'DEBUG' in os.environ
