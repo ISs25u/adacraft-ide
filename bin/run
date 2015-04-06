@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -xe
+set -ex
 
 if [[ "$1" == help ]] ; then
   echo "usage: $(basename $0) [dev|help] [dockers args]"
@@ -10,7 +10,7 @@ fi
 COMMON_ARGS="--detach=true --name=scedit -p 5000:5000 --volumes-from gnandata -e SRCDIR=/data/scriptcraft/players -e SECRET=secret scedit"
 
 if [[ "$1" == dev ]] ; then
-  ARGS="-v $(readlink -f $PWD):/usr/src/app -e DEBUG=y "
+  ARGS="-v $(perl -MCwd=realpath -e "print realpath '$PWD'"):/usr/src/app -e DEBUG=y"
   shift
 fi
 
