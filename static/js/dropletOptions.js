@@ -1,73 +1,16 @@
 var dropletOptions = {
   mode: 'javascript',
   modeOptions: {
-    blockFunctions: ['pen', 'dot', 'blarg']
+    blockFunctions: []
   },
   palette: [
     {
-      name: 'Draw',
+      name: 'Drone',
       color: 'blue',
       blocks: [
         {
-          block: 'pen(red);',
-          title: 'Set the pen color'
-        }, {
-          block: 'fd(100);',
-          title: 'Move forward'
-        }, {
-          block: 'rt(90);',
-          title: 'Turn right'
-        }, {
-          block: 'lt(90);',
-          title: 'Turn left'
-        }, {
-          block: 'bk(100);',
-          title: 'Move backward'
-        }, {
-          block: 'dot(blue, 50);',
-          title: 'Make a dot'
-        }, {
-          block: 'box(green, 50);',
-          title: 'Make a square'
-        }, {
-          block: 'speed(10);',
-          title: 'Set the speed of the turtle'
-        }, {
-          block: 'label(\'hello\');',
-          title: 'Write text at the turtle'
-        }, {
-          block: 'ht();',
-          title: 'Hide the turtle'
-        }, {
-          block: 'st();',
-          title: 'Show the turtle'
-        }, {
-          block: 'pu();',
-          title: 'Pick the pen up'
-        }, {
-          block: 'pd();',
-          title: 'Put the pen down'
-        }, {
-          block: 'pen(purple, 10);',
-          title: 'Set the pen color and thickness'
-        }, {
-          block: 'rt(180, 100);',
-          title: 'Make a wide right turn'
-        }, {
-          block: 'lt(180, 100);',
-          title: 'Make a wide left turn'
-        }, {
-          block: 'slide(100, 20);',
-          title: 'Slide sideways or diagonally'
-        }, {
-          block: 'jump(100, 20);',
-          title: 'Jump without drawing'
-        }, {
-          block: 'play(\'GEC\');',
-          title: 'Play music notes'
-        }, {
-          block: 'wear(\'/img/cat-icon\');',
-          title: 'Change the turtle image'
+          block: '__.left(__);',
+          title: 'Go left'
         }
       ]
     }, {
