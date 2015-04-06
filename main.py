@@ -21,7 +21,7 @@ import datetime
 import os
 import random
 
-from flask import Flask, request, session, render_template, flash, redirect, url_for
+from flask import Flask, make_response, request, session, render_template, flash, redirect, url_for
 from flask.ext.wtf import Form
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import DataRequired
@@ -98,16 +98,28 @@ def editfile(playername, filename):
 
     fname = playername + '/' + filename;
 
+    print url_for("load",playername=playername,filename=filename)
     return render_template(
         'editfile_ace.html',
         fname = fname,
         logged_in_player = logged_in_player(),
         can_save = logged_in_player() == playername,
-        content = get_file_content("%s/%s" % (JSDIR, fname))
+        save_url = url_for("save", playername=playername, filename=filename),
+        file_url = url_for("load", playername=playername, filename=filename),
     )
 
-@app.route('/edit/<playername>/<filename>', methods = ['POST'])
-def editfile_submit(playername, filename):
+@app.route("/load/<playername>/<filename>")
+def load(playername, filename):
+    "get the content of a file"
+
+    fname = playername + '/' + filename;
+    response = make_response(get_file_content("%s/%s" % (JSDIR, fname)))
+    response.headers['Content-Type'] = "text/javascrpt"
+    response.headers['Content-Disposition'] = "inline; filename=" + filename
+    return response
+
+@app.route('/save/<playername>/<filename>', methods = ['GET','POST'])
+def save(playername, filename):
     "Handles save file'"
     if logged_in_player() != playername:
         return "", 403

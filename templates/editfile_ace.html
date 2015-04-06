@@ -3,85 +3,91 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Editing {{fname}}</title>
 
-    <style type="text/css" media="screen">
-    body {
-        overflow: hidden;
-    }
-    #editor { 
-        margin: 0;
-        position: absolute;
-        top: 120;
-        bottom: 0;
-        left: 0;
-        right: 0;
-    }
-    </style>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
-    </script>
-    <script src="/static/beautify.js">
-    </script>
-  </head>
+    <link rel="stylesheet" type="text/css" href="/static/css/droplet.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/static/js/beautify.js"></script>
+    <script src="/static/js/require.js"></script>
+    <script src="/static/js/droplet-full.js"></script>
+    <script src="/static/js/dropletOptions.js"></script>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+      body {
+        font-family: sans-serif;
+        overflow: hidden;
+        margin: 0px; padding: 0px;
+      }
+      #editor {
+        position: absolute;
+        top: 3em;
+        bottom: 0px;
+        right: 0px;
+        left: 0px;
+        background-color: #EEE;
+        z-index: 0;
+      }
+      #toolbar {
+        z-index: 9999;
+        top: 1.5em;
+        position: absolute;
+      }
+    </style>
+  </head>
   <body>
 <p><b>Editing {{fname}}</b>
 <span id="status">
-{% if not can_save %}
-(not yours)
-{% else %}
-(saved)
-{% endif %}
+{% if not can_save %} (not yours) {% else %} (saved) {% endif %}
 </span>
-</p>
-<p> <a href="/edit/">Back</a>
-<p>
-<input type='button' 
-{% if not can_save %}
-disabled
-{% endif %}
-onclick='submitText()' value='Save'/>
-<input type='button' onclick='clean()' value='Clean'/>
-</p>
-
-<form name="editform" id="editform" action="/edit/{{fname}}" method="POST">
-<input type="hidden" id="form_text" name="text" value="">
-</form>
-
-<pre id="editor">{{content}}
-</pre>
-
-
+- <a href="/edit/">back</a>
+<div id="toolbar">
+  <input type='button' {% if not can_save %} disabled {% endif %} onclick='submitText()' value='Save'/>
+  <input type='button' onclick='clean()' value='Clean'/>
+  <input type='button' onclick='dropletEditor.toggleBlocks();' value='Toggle Blocks'/>
+</div>
+<div id="editor">
+</div>
 
 <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="text/javascript">
+
 function clean() {
-  editor.setValue(js_beautify(editor.getValue()));
+  dropletEditor.setValue(js_beautify(dropletEditor.getValue()));
 }
 
-function submitText()
-{
+function submitText() {
    var txt=editor.getValue();
-   var action = document.getElementById("editform").action;
-   jQuery.post(action, { text : txt }, 
+   jQuery.post("{{save_url}}", { text : txt }, 
       function(data, txtStatus) {
          document.getElementById("status").innerHTML = "(saved)";
       }
    );
 }
 
-var editor = ace.edit("editor");
-{% if not can_save %}
-editor.setReadOnly(true);
-{% endif %}
-editor.setTheme("ace/theme/twilight");
-editor.getSession().setMode("ace/mode/javascript");
-document.getElementById('editor').style.fontSize='18px';
+var dropletEditor, editor;
 
-{% if can_save %}
-editor.getSession().on('change', function(e) {
-   document.getElementById("status").innerHTML = "(altered)";
+jQuery(document).ready(function() {
+  require(['droplet'],function(droplet){
+    dropletEditor = new droplet.Editor(document.getElementById("editor"),dropletOptions);
+    dropletEditor.setEditorState(false);
+    editor = dropletEditor.aceEditor;
+    {% if not can_save %}
+    editor.setReadOnly(true);
+    {% endif %}
+    editor.getSession().setMode("ace/mode/javascript");
+
+    jQuery.get("{{file_url}}", function(content) {
+      dropletEditor.setValue(content);
+      {% if can_save %}
+      dropletEditor.on('change', function(e) {
+         document.getElementById("status").innerHTML = "(altered)";
+      });
+      {% endif %}
+    });
+  });
+
 });
-{% endif %}
+
 </script>
 
   </body>
