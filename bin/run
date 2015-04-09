@@ -7,7 +7,7 @@ if [[ "$1" == help ]] ; then
   exit 0
 fi
 
-COMMON_ARGS="--detach=true --name=scedit -p 5000:5000 --volumes-from gnandata -e SRCDIR=/data/scriptcraft/players -e SECRET=secret scedit"
+COMMON_ARGS="--detach=true --name=scedit -p 127.0.0.1:5000:5000 --volumes-from gnandata -e SRCDIR=/data/scriptcraft/players -e SECRET=secret scedit"
 
 if [[ "$1" == dev ]] ; then
   ARGS="-v $(perl -MCwd=realpath -e "print realpath '$PWD'"):/usr/src/app -e DEBUG=y"
