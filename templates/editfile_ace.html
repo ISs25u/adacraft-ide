@@ -4,13 +4,6 @@
     <title>Editing {{fname}}</title>
 
     <link rel="stylesheet" type="text/css" href="/static/css/droplet.css">
-    <script src="/static/js/jquery.js"></script>
-    <script src="/static/js/ace/ace.js" type="text/javascript"></script>
-    <script src="/static/js/beautify.js"></script>
-    <script src="/static/js/require.js"></script>
-    <script src="/static/js/droplet-full.js"></script>
-    <script src="/static/js/dropletOptions.js"></script>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <style>
       body {
@@ -34,60 +27,27 @@
       }
     </style>
   </head>
-  <body>
+<body>
 <p><b>Editing {{fname}}</b>
 <span id="status">
 {% if not can_save %} (not yours) {% else %} (saved) {% endif %}
 </span>
 - <a href="/edit/">back</a>
 <div id="toolbar">
-  <input type='button' {% if not can_save %} disabled {% endif %} onclick='submitText()' value='Save'/>
-  <input type='button' onclick='clean()' value='Clean'/>
-  <input type='button' onclick='dropletEditor.toggleBlocks();' value='Toggle Blocks'/>
+  <input type='button' {% if not can_save %} disabled {% endif %} id="saveButton" value='Save'/>
+  <input type='button' id="cleanButton" value='Clean'/>
+  <input type='button' id="toggleBlocksButton" value='Toggle Blocks'/>
 </div>
-<div id="editor">
+<div id="editor" data-file-url="{{file_url}}" {% if can_save %} data-save-url="{{save_url}}" {% else %} data-read-only="true" {% endif %}>
 </div>
 
-<script type="text/javascript">
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/ace/ace.js"></script>
+<script src="/static/js/beautify.js"></script>
+<script src="/static/js/require.js"></script>
+<script src="/static/js/droplet-full.js"></script>
+<script src="/static/js/dropletOptions.js"></script>
+<script src="/static/js/editfile_ace.js"></script>
 
-function clean() {
-  dropletEditor.setValue(js_beautify(dropletEditor.getValue()));
-}
-
-function submitText() {
-   var txt=editor.getValue();
-   jQuery.post("{{save_url}}", { text : txt }, 
-      function(data, txtStatus) {
-         document.getElementById("status").innerHTML = "(saved)";
-      }
-   );
-}
-
-var dropletEditor, editor;
-
-jQuery(document).ready(function() {
-  require(['droplet'],function(droplet){
-    dropletEditor = new droplet.Editor(document.getElementById("editor"),dropletOptions);
-    dropletEditor.setEditorState(false);
-    editor = dropletEditor.aceEditor;
-    {% if not can_save %}
-    editor.setReadOnly(true);
-    {% endif %}
-    editor.getSession().setMode("ace/mode/javascript");
-
-    jQuery.get("{{file_url}}", function(content) {
-      dropletEditor.setValue(content);
-      {% if can_save %}
-      dropletEditor.on('change', function(e) {
-         document.getElementById("status").innerHTML = "(altered)";
-      });
-      {% endif %}
-    });
-  });
-
-});
-
-</script>
-
-  </body>
+</body>
 </html>
