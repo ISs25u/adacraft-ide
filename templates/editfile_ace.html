@@ -41,16 +41,13 @@
 <div id="editor" data-file-url="{{file_url}}" {% if can_save %} data-save-url="{{save_url}}" {% else %} data-read-only="true" {% endif %}>
 </div>
 
-{% assets output="gen/editfile_ace.js",
-     "js/jquery.js",
-     "js/ace/ace.js",
-     "js/beautify.js",
-     "js/require.js",
-     "js/droplet-full.js",
-     "js/dropletOptions.js",
-     "js/editfile_ace.js" %}
-     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-{% endassets %}
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/ace/ace.js"></script>
+<script src="/static/js/beautify.js"></script>
+<script src="/static/js/require.js"></script>
+<script src="/static/js/droplet-full.js"></script>
+<script src="/static/js/dropletOptions.js"></script>
+<script src="/static/js/editfile_ace.js"></script>
 
 </body>
 </html>

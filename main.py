@@ -23,7 +23,6 @@ import random
 
 from flask import Flask, make_response, request, session, render_template, flash, redirect, url_for
 from flask.ext.wtf import Form
-from flask.ext.assets import Environment
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import DataRequired
 
@@ -51,8 +50,6 @@ class LoginForm(Form):
 app = Flask(__name__)
 app.wtf_csrf_enabled = False
 app.secret_key = os.urandom(24)
-
-assets = Environment(app)
 
 @app.route('/')
 def index():
