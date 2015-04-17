@@ -3,7 +3,7 @@
 set -ex
 
 if [[ "$1" == help ]] ; then
-  echo "usage: $(basename $0) [dev|help] [dockers args]"
+  echo "usage: $(basename $0) [dev|stop|help] [dockers args]"
   exit 0
 fi
 
@@ -19,5 +19,7 @@ if $(docker ps -a | grep scedit >/dev/null) ; then
   docker rm -v scedit
 fi
 
-docker run $ARGS $COMMON_ARGS
+if [[ "$1" != stop ]] ; then
+  docker run $ARGS $COMMON_ARGS $@
+fi
 
