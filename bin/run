@@ -3,20 +3,30 @@
 set -ex
 
 if [[ "$1" == help ]] ; then
-  echo "usage: $(basename $0) [dev|stop|help] [dockers args]"
+  echo "usage: $(basename $0) [-c config] [dev|stop|help] [dockers args]"
   exit 0
 fi
 
-COMMON_ARGS="--detach=true --name=scedit -p 127.0.0.1:5000:5000 --volumes-from gnandata -e SRCDIR=/data/scriptcraft/players -e SECRET=secret scedit"
+if [[ "$1" == -c ]] ; then
+  shift
+  source $1
+  shift
+else
+  scedit_container=gnancraft
+  scedit_port=25565
+  data_container=gnandata
+fi
+
+COMMON_ARGS="--detach=true --name=${scedit_container} -p 127.0.0.1:${scedit_port}:5000 --volumes-from ${data_container} -e SRCDIR=/data/scriptcraft/players -e SECRET=secret scedit"
 
 if [[ "$1" == dev ]] ; then
   ARGS="-v $(perl -MCwd=realpath -e "print realpath '$PWD'"):/usr/src/app -e DEBUG=y"
   shift
 fi
 
-if $(docker ps -a | grep scedit >/dev/null) ; then
-  docker stop scedit
-  docker rm -v scedit
+if $(docker ps -a | grep "\b${scedit_container} *$" >/dev/null) ; then
+  docker stop $scedit_container
+  docker rm -v $scedit_container
 fi
 
 if [[ "$1" != stop ]] ; then
