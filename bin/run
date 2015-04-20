@@ -12,8 +12,8 @@ if [[ "$1" == -c ]] ; then
   source $1
   shift
 else
-  scedit_container=gnancraft
-  scedit_port=25565
+  scedit_container=scedit
+  scedit_port=5000
   data_container=gnandata
 fi
 
