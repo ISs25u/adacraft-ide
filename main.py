@@ -49,7 +49,7 @@ class LoginForm(Form):
 
 app = Flask(__name__)
 app.wtf_csrf_enabled = False
-app.secret_key = os.urandom(24)
+app.secret_key = SECRET
 
 @app.route('/')
 def index():
