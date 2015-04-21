@@ -5,14 +5,178 @@ var dropletOptions = {
   },
   palette: [
     {
-      name: 'Drone',
+      name: 'Drone basics',
       color: 'blue',
       blocks: [
         {
-          block: '__.left(__);',
-          title: 'Go left'
-        }
+          block: 'var drone = up(0);',
+          title: 'Create drone where I look at'
+        },
+        {
+          block: 'exports.myFunction = function(){\n\t\tvar drone = up(0);\n\t\t __ ;\n};',
+          title: 'A function with a drone'
+        },
+        {
+          block: 'var drone = new Drone(__);',
+          title: 'Create a drone anywhere'
+        },
       ]
+    },
+    {
+      name: 'Drone moves',
+      color: 'blue',
+      blocks: [
+        {
+          block: 'drone.left(1);',
+          title: 'Move left'
+        },
+        {
+          block: 'drone.right(1);',
+          title: 'Move right'
+        },
+        {
+          block: 'drone.up(1);',
+          title: 'Move up'
+        },
+        {
+          block: 'drone.down(1);',
+          title: 'Move down'
+        },
+        {
+          block: 'drone.turn(1);',
+          title: 'Turn right'
+        },
+        {
+          block: 'drone.turn(2);',
+          title: 'U turn'
+        },
+        {
+          block: 'drone.turn(3);',
+          title: 'Turn left'
+        },
+        {
+          block: 'drone.chkpt("here");',
+          title: 'Create checkpoint'
+        },
+        {
+          block: 'drone.move("here");',
+          title: 'Go to checkpoint'
+        },
+      ]
+    }, {
+      name: 'Drone shapes',
+      color: 'blue',
+      blocks: [
+        {
+          block: 'drone.box(blocks._,_,_,_)',
+          title: 'Create a box'
+        },
+        {
+          block: 'drone.box0(blocks._,_,_,_)',
+          title: 'Create a hollow box'
+        },
+        {
+          block: 'drone.cylinder(blocks._,_,_)',
+          title: 'Create a cylinder'
+        },
+        {
+          block: 'drone.cylinder0(blocks._,_,_)',
+          title: 'Create a hollow cylinder'
+        },
+        {
+          block: 'drone.prism(blocks._,_,_)',
+          title: 'Create a prism'
+        },
+        {
+          block: 'drone.prism0(blocks._,_,_)',
+          title: 'Create a hollow prism'
+        },
+        {
+          block: 'drone.sphere(blocks._,_)',
+          title: 'Create a sphere'
+        },
+        {
+          block: 'drone.sphere0(blocks._,_)',
+          title: 'Create a hollow sphere'
+        },
+        ]
+    }, {
+      name: 'Drone fun',
+      color: 'blue',
+      blocks: [
+        {
+          block: 'drone.door()',
+          title: 'Create a wooden door'
+        },
+        {
+          block: 'drone.door2()',
+          title: 'Create a wooden dooble door'
+        },
+        {
+          block: 'drone.wallsign(["","","",""])',
+          title: 'Create a sign on the wall'
+        },
+        {
+          block: 'drone.signpost(["","","",""])',
+          title: 'Create a freestanding sign'
+        },
+        {
+          block: 'drone.oak()',
+          title: 'Create a tree'
+        },
+        {
+          block: 'drone.spruce()',
+          title: 'Create a tree'
+        },
+        {
+          block: 'drone.birch()',
+          title: 'Create a tree'
+        },
+        {
+          block: 'drone.jungle()',
+          title: 'Create a tree'
+        },
+        {
+          block: 'drone.cottage()',
+          title: 'Build a home'
+        },
+        {
+          block: 'drone.cottage_road()',
+          title: 'Build a nice road with buildings and trees'
+        },
+        {
+          block: 'drone.fort(_,_)',
+          title: 'Build a mighty fort'
+        },
+        {
+          block: 'drone.castle(_,_)',
+          title: 'Build a even mighter castle'
+        },
+        {
+          block: 'drone.temple(_)',
+          title: 'Build a temple'
+        },
+        {
+          block: 'drone.firework(_,_)',
+          title: 'Launch a firework'
+        },
+        {
+          block: 'drone.maze(_,_)',
+          title: 'Build a maze'
+        },
+        {
+          block: 'drone.garden(_,_)',
+          title: 'Plant a garden'
+        },
+        {
+          block: 'drone.door_iron()',
+          title: 'Create a iron door'
+        },
+        {
+          block: 'drone.door2_iron()',
+          title: 'Create a iron double door'
+        },
+        ]
     }, {
       name: 'Control',
       color: 'orange',
@@ -84,6 +248,9 @@ var dropletOptions = {
       color: 'violet',
       blocks: [
         {
+          block: 'exports.myFunction = myFunction;',
+          title: 'exports a function'
+        }, {
           block: 'function myFunction() {\n  __;\n}',
           title: 'Create a function without an argument'
         }, {
