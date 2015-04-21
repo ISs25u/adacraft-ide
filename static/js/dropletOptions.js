@@ -97,6 +97,15 @@ var dropletOptions = {
           title: 'Use a function with argument'
         }
       ]
+    }, {
+      name: 'Events',
+      color: 'brown',
+      blocks: [
+        {
+          block: 'events.playerMove(function(event) {\n\t\tvar location = event.to.clone(); \n\t\tvar player = event.player; \n __ \n})',
+          title: 'Create a function without an argument'
+        }
+      ]
     }
   ]
 }
