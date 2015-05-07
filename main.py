@@ -22,9 +22,6 @@ import os
 import random
 
 from flask import Flask, make_response, request, session, render_template, flash, redirect, url_for
-from flask.ext.wtf import Form
-from wtforms import StringField, PasswordField, BooleanField
-from wtforms.validators import DataRequired
 
 ENCODING="UTF-8"
 JSDIR = os.environ['SRCDIR']
@@ -43,12 +40,7 @@ def logged_in_player():
     else:
         return None
 
-class LoginForm(Form):
-    username = StringField('username', validators=[DataRequired()])
-    password = PasswordField('username', validators=[DataRequired()])
-
 app = Flask(__name__)
-app.wtf_csrf_enabled = False
 app.secret_key = SECRET
 
 @app.route('/')
@@ -140,19 +132,6 @@ def save(playername, filename):
     file.write(unicode(txt))
     file.close()
     return ""
-
-@app.route("/logfile")
-def logfile():
-    return render_template(
-        'logfile.html',
-        content = get_file_content("mcserver.log")
-    )
-
-
-# ------------------------------------------------------------
-#
-#  Mainstuff
-#
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=DEBUG)
