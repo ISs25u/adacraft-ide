@@ -5,17 +5,25 @@
         <p>You are logged in as <em>{{ logged_in_player }}</em>
         (<a href="/logout">Log out</a>)</p>
     {% endif %}
-    <h1>Edit JS files</h1>
+    <h1>Browse JavaScript files</h1>
 
 <p> <a href="/logfile">Check logfile</a> </p> 
 
-<p> Edit one of the following files: </p> 
-<ul> 
-  {%- for directory, files in filesByDirectory.iteritems() %}
-    {%- for path in files %}
+{% if ownedFiles%}
+<p> You can edit one of the following files: </p> 
+<ul>
+    {%- for path in ownedFiles %}
       <li><a href="{{path}}">{{path}}</a></li>
     {%endfor %}
-    <li>{{directory}}<input type="text" data-url="{{directory}}"></input></li>
+    <li>{{playerDir}}<input type="text" data-url="{{playerDir}}"></input></li>
+</ul>
+{% endif %}
+<p> You can read the following files: </p> 
+<ul>
+  {%- for directory, files in filesByDirectory.iteritems()|sort %}
+    {%- for path in files|sort %}
+      <li><a href="{{path}}">{{path}}</a></li>
+    {%endfor %}
   {%endfor %}
 <script type="text/javascript">
   document.onkeyup = function(event) {

@@ -85,11 +85,21 @@ def edit():
     fnames = {}
     for dn in dnames:
         files = glob.glob("%s%s*.js" % (JSDIR,dn))
-        files.sort()
         fnames[dn]= [ f[len(JSDIR)+1:] for f in files]
+    ownedFiles = None
+    playerDir = None
+    if logged_in_player() :
+        ownedFiles = []
+        playerDir = '/%s/' % logged_in_player()
+        if fnames.has_key(playerDir):
+            ownedFiles = fnames[playerDir]
+            del fnames[playerDir]
     return render_template(
         'edit.html',
-        filesByDirectory = fnames
+        ownedFiles = ownedFiles,
+        playerDir = playerDir,
+        filesByDirectory = fnames,
+        logged_in_player = logged_in_player()
     )
 
 @app.route("/edit/<playername>/<filename>")
