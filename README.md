@@ -1,11 +1,5 @@
-This code was an experiment that I used to let my kids and my brother
-edit ScriptCraft files on our Bukkit (Minecraft) server. I'm pushing
-it out in case it's a useful starting point for others.
-
-WARNING: this code was experimental, so there might be security issues
-here. I'm making no claims about dogs being held hostage by
-aliens. Just mentioning it.
-
+This web editor for ScriptCraft files. 
+It is derived from John Markus Bjørndalen experiment.
 
 Installing and running 
 ----------------------
