@@ -13,8 +13,9 @@
     {%- for path in ownedFiles %}
       <li><a href="{{path}}">{{path}}</a></li>
     {%endfor %}
-    <li>{{playerDir}}<input type="text" data-url="{{playerDir}}"></input></li>
 </ul>
+{% elif logged_in_player %}
+    {{playerDir}}<input type="text" data-url="{{playerDir}}"></input>
 {% endif %}
 <p> You can read the following files: </p> 
 <ul>
