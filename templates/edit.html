@@ -7,15 +7,14 @@
     {% endif %}
     <h1>Browse JavaScript files</h1>
 
-{% if ownedFiles%}
+{% if logged_in_player %}
 <p> You can edit one of the following files: </p> 
 <ul>
     {%- for path in ownedFiles %}
       <li><a href="{{path}}">{{path}}</a></li>
-    {%endfor %}
+    {% endfor %}
+      <li> {{playerDir}}<input type="text" data-url="{{playerDir}}"></input></li>
 </ul>
-{% elif logged_in_player %}
-    {{playerDir}}<input type="text" data-url="{{playerDir}}"></input>
 {% endif %}
 <p> You can read the following files: </p> 
 <ul>
