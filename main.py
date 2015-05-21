@@ -20,6 +20,7 @@ import string
 import datetime
 import os
 import random
+from git import Actor,Repo
 
 from flask import Flask, make_response, request, session, render_template, flash, redirect, url_for
 
@@ -127,11 +128,25 @@ def save(playername, filename):
         return "", 403
     fname = playername + '/' + filename;
     txt   = request.form['text']
-    print "Submitting file %s" % fname
-    file = io.open("%s/%s" %(JSDIR, fname), "wt", encoding=ENCODING)
+    print "Saving file %s" % fname
+    file_path = "%s/%s" %(JSDIR, fname)
+    isCreation = not os.path.isfile(file_path)
+    file = io.open(file_path, "wt", encoding=ENCODING)
     file.write(unicode(txt))
     file.close()
+    if repo.is_dirty():
+        repo.index.add([file_path])
+        commit_message_prefix = 'create' if isCreation else 'update'
+        author = Actor(playername, "unknown@email")
+        repo.index.commit('%s %s' % (commit_message_prefix, fname), author = author)
     return ""
 
 if __name__ == "__main__":
+    if os.path.isdir("%s/.git" % JSDIR):
+        repo = Repo(JSDIR)
+    else:
+        repo = Repo.init(JSDIR)
+        repo.index.add(repo.untracked_files)
+        repo.index.commit('initial commit')
+        print "Git repo initialized"
     app.run(host='0.0.0.0', debug=DEBUG)
