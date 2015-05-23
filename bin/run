@@ -12,21 +12,21 @@ if [[ "$1" == -c ]] ; then
   source $1
   shift
 else
-  scedit_container=scedit
-  scedit_port=5000
+  ide_container=gnancraft-ide
+  ide_port=5000
   data_container=gnandata
 fi
 
-COMMON_ARGS="--detach=true --name=${scedit_container} -p 127.0.0.1:${scedit_port}:5000 --volumes-from ${data_container} -e SRCDIR=/data/scriptcraft/players -e SECRET=secret scedit"
+COMMON_ARGS="--detach=true --name=${ide_container} -p 127.0.0.1:${ide_port}:5000 --volumes-from ${data_container} -e SRCDIR=/data/scriptcraft/players -e SECRET=secret gnancraft-ide"
 
 if [[ "$1" == dev ]] ; then
   ARGS="-v $(perl -MCwd=realpath -e "print realpath '$PWD'"):/usr/src/app -e DEBUG=y"
   shift
 fi
 
-if $(docker ps -a | grep "\b${scedit_container} *$" >/dev/null) ; then
-  docker stop $scedit_container
-  docker rm -v $scedit_container
+if $(docker ps -a | grep "\b${ide_container} *$" >/dev/null) ; then
+  docker stop $ide_container
+  docker rm -v $ide_container
 fi
 
 if [[ "$1" != stop ]] ; then
