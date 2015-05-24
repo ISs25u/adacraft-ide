@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -ex
-
 if [[ "$1" == help ]] ; then
   echo "usage: $(basename $0) [-c config] [dev|stop|help] [dockers args]"
   exit 0
@@ -18,7 +16,12 @@ if [[ "$1" == -c ]] ; then
   shift
 fi
 
-COMMON_ARGS="--detach=true --name=${ide_container} -p 127.0.0.1:${ide_port}:5000 --volumes-from ${data_container} -e SRCDIR=/data/scriptcraft/players -e SECRET=secret gnancraft-ide"
+if [[ -z "$secret" ]] ; then
+  echo "set a secret by adding a line 'secret=whateversecret' in ${RCFILE}"
+  exit -1
+fi
+
+COMMON_ARGS="--detach=true --name=${ide_container} -p 127.0.0.1:${ide_port}:5000 --volumes-from ${data_container} -e SRCDIR=/data/scriptcraft/players -e SECRET=${secret} gnancraft-ide"
 
 if [[ "$1" == dev ]] ; then
   ARGS="-v $(perl -MCwd=realpath -e "print realpath '$PWD'"):/usr/src/app -e DEBUG=y"
