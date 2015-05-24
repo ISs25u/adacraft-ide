@@ -7,14 +7,15 @@ if [[ "$1" == help ]] ; then
   exit 0
 fi
 
+. $(dirname $0)/default.conf
+
+RCFILE=~/.gnancraftrc
+[[ -e "$RCFILE" ]] && . $RCFILE
+
 if [[ "$1" == -c ]] ; then
   shift
   source $1
   shift
-else
-  ide_container=gnancraft-ide
-  ide_port=5000
-  data_container=gnandata
 fi
 
 COMMON_ARGS="--detach=true --name=${ide_container} -p 127.0.0.1:${ide_port}:5000 --volumes-from ${data_container} -e SRCDIR=/data/scriptcraft/players -e SECRET=secret gnancraft-ide"
