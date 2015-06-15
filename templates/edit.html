@@ -8,21 +8,33 @@
     <h1>Browse JavaScript files</h1>
 
 {% if logged_in_player %}
-<p> You can edit one of the following files: </p> 
-<ul>
-    {%- for path in ownedFiles %}
-      <li><a href="{{path}}">{{path}}</a></li>
-    {% endfor %}
-      <li> {{playerDir}}<input type="text" data-url="{{playerDir}}"></input></li>
-</ul>
+<p> You can edit the following files: </p> 
+<dl>
+  <dt>{{playerDir}}</dt>
+  <dd>
+    <ul>
+        {%- for path in ownedFiles|sort %}
+          <li><a href="{{playerDir}}/{{path}}">{{path}}</a></li>
+        {% endfor %}
+        <li><input type="text" placeholder="enter new file name" data-url="{{playerDir}}/"></input></li>
+    </ul>
+  </dd>
+</dl>
 {% endif %}
 <p> You can read the following files: </p> 
-<ul>
-  {%- for directory, files in filesByDirectory|dictsort %}
-    {%- for path in files|sort %}
-      <li><a href="{{path}}">{{path}}</a></li>
-    {%endfor %}
+<dl>
+  {%- for directory, files in filesByDirectory|dictsort %} 
+    <dt>{{directory}}</dt>
+    <dd>
+      <ul>
+        {%- for path in files|sort %}
+          <li><a href="{{directory}}/{{path}}">{{path}}</a></li>
+        {%endfor %}
+      </ul>
+    </dd>
   {%endfor %}
+</dl> 
+
 <script type="text/javascript">
   document.onkeyup = function(event) {
     if (event.keyCode != 13) return;
@@ -33,9 +45,7 @@
     if (! endsWith(filename,".js")) {
       filename = filename + ".js";
     }
-    window.location = event.target.dataset.url.slice(1) + filename;
+    window.location = event.target.dataset.url + filename;
   }
 </script>
-
-</ul> 
 {% endblock %}

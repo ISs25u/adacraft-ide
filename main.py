@@ -74,16 +74,17 @@ def edit():
     "lists files we might want to edit"
 
     directories = glob.glob("%s/*/" % (JSDIR,))
-    dnames = [ d[len(JSDIR):] for d in directories]
     fnames = {}
-    for dn in dnames:
-        files = glob.glob("%s%s*.js" % (JSDIR,dn))
-        fnames[dn]= [ f[len(JSDIR)+1:] for f in files]
+    for directory in directories:
+        files = glob.glob("%s*.js" % (directory))
+        dirname = os.path.basename(os.path.dirname(directory))
+        if files:
+          fnames[dirname] = [ os.path.basename(f) for f in files]
     ownedFiles = None
     playerDir = None
     if logged_in_player() :
         ownedFiles = []
-        playerDir = '/%s/' % logged_in_player()
+        playerDir = logged_in_player()
         if fnames.has_key(playerDir):
             ownedFiles = fnames[playerDir]
             del fnames[playerDir]
