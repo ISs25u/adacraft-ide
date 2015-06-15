@@ -18,7 +18,7 @@
 {% endif %}
 <p> You can read the following files: </p> 
 <ul>
-  {%- for directory, files in filesByDirectory.iteritems()|sort %}
+  {%- for directory, files in filesByDirectory|dictsort %}
     {%- for path in files|sort %}
       <li><a href="{{path}}">{{path}}</a></li>
     {%endfor %}
