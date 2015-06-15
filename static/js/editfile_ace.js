@@ -14,7 +14,7 @@ jQuery(function ($) {
       dropletEditor.setValue(content);
 
       $('#cleanButton').click(function () {
-        dropletEditor.setValue(js_beautify(dropletEditor.getValue()));
+        dropletEditor.setValue(js_beautify(dropletEditor.getValue(), {indent_size: 2}));
       });
 
       $('#toggleBlocksButton').click(function () {
