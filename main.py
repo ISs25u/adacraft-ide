@@ -135,7 +135,7 @@ def save(playername, filename):
     file = io.open(file_path, "wt", encoding=ENCODING)
     file.write(unicode(txt))
     file.close()
-    if repo.is_dirty():
+    if repo.is_dirty(untracked_files=True):
         repo.index.add([file_path])
         commit_message_prefix = 'create' if isCreation else 'update'
         author = Actor(playername, "unknown@email")
