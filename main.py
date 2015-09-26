@@ -17,6 +17,7 @@ from __future__ import unicode_literals
 import io                   # Better alternative for unicode files.
 import glob
 import os
+import signal
 from git import Actor, Repo
 
 from flask import Flask, make_response, request, session, render_template, flash, redirect, url_for
@@ -148,6 +149,11 @@ def save(playername, filename):
         repo.index.commit('%s %s' % (commit_message_prefix, fname), author=author)
     return ""
 
+
+def term_handler(signum, frame):
+    print "Caught TERM signal, shutting down."
+    exit(0)
+
 if __name__ == "__main__":
     if os.path.isdir("%s/.git" % JSDIR):
         repo = Repo(JSDIR)
@@ -156,4 +162,5 @@ if __name__ == "__main__":
         repo.index.add(repo.untracked_files)
         repo.index.commit('initial commit')
         print "Git repo initialized"
+    signal.signal(signal.SIGTERM, term_handler)
     app.run(host='0.0.0.0', debug=DEBUG)
