@@ -16,24 +16,23 @@ Loaded remotely:
 from __future__ import unicode_literals
 import io                   # Better alternative for unicode files.
 import glob
-import string
-import datetime
 import os
-import random
-from git import Actor,Repo
+from git import Actor, Repo
 
 from flask import Flask, make_response, request, session, render_template, flash, redirect, url_for
 
-ENCODING="UTF-8"
+ENCODING = "UTF-8"
 JSDIR = os.environ['SRCDIR']
 DEBUG = 'DEBUG' in os.environ
 SECRET = os.environ['SECRET']
+
 
 def get_file_content(fname):
     try:
         return io.open(fname, "r", encoding=ENCODING).read()
     except:
         return ""
+
 
 def logged_in_player():
     if 'player' in session:
@@ -44,30 +43,34 @@ def logged_in_player():
 app = Flask(__name__)
 app.secret_key = SECRET
 
+
 @app.route('/')
 def index():
-    return redirect(url_for('edit')) 
+    return redirect(url_for('edit'))
+
 
 @app.route('/auth/<token>')
 def auth(token):
-    import auth;
-    import base64;
+    import auth
+    import base64
     token = base64.b64decode(token)
     if auth.verify(token, SECRET):
         login = auth.readLogin(token)
-        session['player']= login;
+        session['player'] = login
         flash('Logged in as %s' % login)
     else:
         flash('Invalid token')
 
     return redirect(url_for('edit'))
 
+
 @app.route('/logout')
 def logout():
-    if 'player' in session: 
+    if 'player' in session:
         session.pop('player', None)
         flash('Logged out')
     return redirect(url_for('edit'))
+
 
 @app.route("/edit/")
 def edit():
@@ -79,10 +82,10 @@ def edit():
         files = glob.glob("%s*.js" % (directory))
         dirname = os.path.basename(os.path.dirname(directory))
         if files:
-          fnames[dirname] = [ os.path.basename(f) for f in files]
+            fnames[dirname] = [os.path.basename(f) for f in files]
     ownedFiles = None
     playerDir = None
-    if logged_in_player() :
+    if logged_in_player():
         ownedFiles = []
         playerDir = logged_in_player()
         if fnames.has_key(playerDir):
@@ -90,47 +93,50 @@ def edit():
             del fnames[playerDir]
     return render_template(
         'edit.html',
-        ownedFiles = ownedFiles,
-        playerDir = playerDir,
-        filesByDirectory = fnames,
-        logged_in_player = logged_in_player()
+        ownedFiles=ownedFiles,
+        playerDir=playerDir,
+        filesByDirectory=fnames,
+        logged_in_player=logged_in_player()
     )
+
 
 @app.route("/edit/<playername>/<filename>")
 def editfile(playername, filename):
     "edit the content of a file"
 
-    fname = playername + '/' + filename;
+    fname = playername + '/' + filename
 
-    print url_for("load",playername=playername,filename=filename)
+    print url_for("load", playername=playername, filename=filename)
     return render_template(
         'editfile_ace.html',
-        fname = fname,
-        logged_in_player = logged_in_player(),
-        can_save = logged_in_player() == playername,
-        save_url = url_for("save", playername=playername, filename=filename),
-        file_url = url_for("load", playername=playername, filename=filename),
+        fname=fname,
+        logged_in_player=logged_in_player(),
+        can_save=logged_in_player() == playername,
+        save_url=url_for("save", playername=playername, filename=filename),
+        file_url=url_for("load", playername=playername, filename=filename),
     )
+
 
 @app.route("/load/<playername>/<filename>")
 def load(playername, filename):
     "get the content of a file"
 
-    fname = playername + '/' + filename;
+    fname = playername + '/' + filename
     response = make_response(get_file_content("%s/%s" % (JSDIR, fname)))
     response.headers['Content-Type'] = "text/javascrpt"
     response.headers['Content-Disposition'] = "inline; filename=" + filename
     return response
 
-@app.route('/save/<playername>/<filename>', methods = ['GET','POST'])
+
+@app.route('/save/<playername>/<filename>', methods=['GET', 'POST'])
 def save(playername, filename):
     "Handles save file'"
     if logged_in_player() != playername:
         return "", 403
-    fname = playername + '/' + filename;
-    txt   = request.form['text']
+    fname = playername + '/' + filename
+    txt = request.form['text']
     print "Saving file %s" % fname
-    file_path = "%s/%s" %(JSDIR, fname)
+    file_path = "%s/%s" % (JSDIR, fname)
     isCreation = not os.path.isfile(file_path)
     file = io.open(file_path, "wt", encoding=ENCODING)
     file.write(unicode(txt))
@@ -139,7 +145,7 @@ def save(playername, filename):
         repo.index.add([file_path])
         commit_message_prefix = 'create' if isCreation else 'update'
         author = Actor(playername, "unknown@email")
-        repo.index.commit('%s %s' % (commit_message_prefix, fname), author = author)
+        repo.index.commit('%s %s' % (commit_message_prefix, fname), author=author)
     return ""
 
 if __name__ == "__main__":
