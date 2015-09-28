@@ -53,13 +53,13 @@ def index():
 @app.route('/auth/<token>')
 def auth(token):
     import auth
-    import base64
-    token = base64.b64decode(token)
-    if auth.verify(token, SECRET):
-        login = auth.readLogin(token)
+    try:
+        info = auth.verifyToken(token, SECRET)
+        login = info['login']
         session['player'] = login
         flash('Logged in as %s' % login)
-    else:
+    except Exception, e:
+        app.logger.error("Auth error: %s" % str(e))
         flash('Invalid token')
 
     return redirect(url_for('edit'))
@@ -107,7 +107,7 @@ def editfile(playername, filename):
 
     fname = playername + '/' + filename
 
-    print url_for("load", playername=playername, filename=filename)
+    app.logger.debug(url_for("load", playername=playername, filename=filename))
     return render_template(
         'editfile_ace.html',
         fname=fname,
@@ -136,7 +136,7 @@ def save(playername, filename):
         return "", 403
     fname = playername + '/' + filename
     txt = request.form['text']
-    print "Saving file %s" % fname
+    app.logger.debug("Saving file %s" % fname)
     file_path = "%s/%s" % (JSDIR, fname)
     isCreation = not os.path.isfile(file_path)
     file = io.open(file_path, "wt", encoding=ENCODING)
@@ -151,7 +151,7 @@ def save(playername, filename):
 
 
 def term_handler(signum, frame):
-    print "Caught TERM signal, shutting down."
+    app.logger.info("Caught TERM signal, shutting down.")
     exit(0)
 
 if __name__ == "__main__":
@@ -161,6 +161,6 @@ if __name__ == "__main__":
         repo = Repo.init(JSDIR)
         repo.index.add(repo.untracked_files)
         repo.index.commit('initial commit')
-        print "Git repo initialized"
+        app.logger.info("Git repo initialized")
     signal.signal(signal.SIGTERM, term_handler)
     app.run(host='0.0.0.0', debug=DEBUG)

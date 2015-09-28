@@ -1,11 +1,4 @@
-import json
-import hashlib, hmac
+import jwt
 
-def readLogin(token):
-    return json.loads(token)['login']
-
-def verify(token, secret):
-    token = json.loads(token)
-    if not 'login' in token or not 'signature' in token:
-        return False
-    return hmac.HMAC(secret, token['login'], hashlib.sha1).hexdigest() == token['signature']
+def verifyToken(token, secret):
+    return jwt.decode(token, secret, algorithm='HS256')
