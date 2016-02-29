@@ -42,6 +42,10 @@
     function endsWith(str, suffix) {
         return str.indexOf(suffix, str.length - suffix.length) !== -1;
     }
+    if (! /^[-_A-Za-z0-9.]+$/.test(filename)) {
+      alert("Invalid filename! Please use only non-accented letters and digits.");
+      return;
+    }
     if (! endsWith(filename,".js")) {
       filename = filename + ".js";
     }
