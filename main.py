@@ -27,6 +27,8 @@ JSDIR = os.environ['SRCDIR']
 DEBUG = 'DEBUG' in os.environ
 SECRET = os.environ['SECRET']
 
+repo = None
+
 
 def get_file_content(fname):
     try:
@@ -139,12 +141,21 @@ def save(playername, filename):
     app.logger.debug("Saving file %s" % fname)
     file_path = "%s/%s" % (JSDIR, fname)
     isCreation = not os.path.isfile(file_path)
-    file = io.open(file_path, "wt", encoding=ENCODING)
-    file.write(unicode(txt))
-    file.close()
+    isEmpty = txt == ''
+    if isCreation and isEmpty:
+        return ''
+    isDeletion = isEmpty and not isCreation
+    if isDeletion:
+        os.remove(file_path)
+    else:
+        with io.open(file_path, "wt", encoding=ENCODING) as f:
+            f.write(unicode(txt))
     if repo.is_dirty(untracked_files=True):
-        repo.index.add([file_path])
-        commit_message_prefix = 'create' if isCreation else 'update'
+        if isDeletion:
+            repo.index.remove([file_path])
+        else:
+            repo.index.add([file_path])
+        commit_message_prefix = 'create' if isCreation else ('delete' if isDeletion else 'update')
         author = Actor(playername, "unknown@email")
         repo.index.commit('%s %s' % (commit_message_prefix, fname), author=author)
     return ""
@@ -154,7 +165,9 @@ def term_handler(signum, frame):
     app.logger.info("Caught TERM signal, shutting down.")
     exit(0)
 
-if __name__ == "__main__":
+
+def init_repo():
+    global repo
     if os.path.isdir("%s/.git" % JSDIR):
         repo = Repo(JSDIR)
     else:
@@ -162,5 +175,8 @@ if __name__ == "__main__":
         repo.index.add(repo.untracked_files)
         repo.index.commit('initial commit')
         app.logger.info("Git repo initialized")
+
+if __name__ == "__main__":
+    init_repo()
     signal.signal(signal.SIGTERM, term_handler)
     app.run(host='0.0.0.0', debug=DEBUG)
