@@ -16,5 +16,4 @@ if __name__ == "__main__":
     if len(sys.argv) != 3:
         sys.stderr.write('usage: auth.py SECRET USER\n')
         sys.exit(1)
-    secret = sys.argv[1]
-    sys.stdout.write(createToken(dict(login=sys.argv[1]), sys.argv[2]) + '\n')
+    sys.stdout.write(createToken(dict(login=sys.argv[2]), sys.argv[1]) + '\n')
