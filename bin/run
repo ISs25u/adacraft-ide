@@ -30,6 +30,7 @@ COMMON_ARGS="--detach=true \
   -e SLACK_HOOK=${slack_hook} \
   -e VIRTUAL_HOST=code.${subdomain}${subdomain:+.}gnancraft.net \
   -e VIRTUAL_PORT=5000 \
+  -e DEBUG=y \
   gnancraft-ide"
 
 if [[ "$1" == dev ]] ; then
