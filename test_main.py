@@ -1,6 +1,8 @@
 import unittest
 import tempfile
 import os
+import shutil
+
 
 SRCDIR = tempfile.mkdtemp()
 os.environ['SRCDIR'] = SRCDIR
@@ -27,6 +29,12 @@ class TestMain(unittest.TestCase):
         resp = self.app.get('/')
         self.assertEqual(302, resp.status_code)
         self.assertEqual('http://localhost/edit/', resp.headers['Location'])
+
+    def test_save_creates_directory(self):
+        shutil.rmtree(SRCDIR + '/jojo')
+        resp = self.app.post('/save/jojo/code.js', data=dict(text='hello'))
+        self.assertEqual(200, resp.status_code)
+        self.assertTrue(os.path.isdir(SRCDIR + '/jojo'))
 
     def test_save_creates_file(self):
         resp = self.app.post('/save/jojo/code.js', data=dict(text='hello'))

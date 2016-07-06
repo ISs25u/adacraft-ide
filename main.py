@@ -30,11 +30,18 @@ SECRET = os.environ['SECRET']
 repo = None
 
 
-def get_file_content(fname):
+def get_file_content(file_path):
     try:
-        return io.open(fname, "r", encoding=ENCODING).read()
+        return io.open(file_path, "r", encoding=ENCODING).read()
     except:
         return ""
+
+
+def set_file_content(file_path, txt):
+    if not os.path.isdir(os.path.dirname(file_path)):
+        os.makedirs(os.path.dirname(file_path))
+    with io.open(file_path, "wt", encoding=ENCODING) as f:
+        f.write(unicode(txt))
 
 
 def logged_in_player():
@@ -91,7 +98,7 @@ def edit():
     if logged_in_player():
         ownedFiles = []
         playerDir = logged_in_player()
-        if fnames.has_key(playerDir):
+        if playerDir in fnames:
             ownedFiles = fnames[playerDir]
             del fnames[playerDir]
     return render_template(
@@ -133,12 +140,15 @@ def load(playername, filename):
 
 @app.route('/save/<playername>/<filename>', methods=['GET', 'POST'])
 def save(playername, filename):
-    "Handles save file'"
+    "Handles save file"
+
     if logged_in_player() != playername:
         return "", 403
+
     fname = playername + '/' + filename
-    txt = request.form['text']
     app.logger.debug("Saving file %s" % fname)
+
+    txt = request.form['text']
     file_path = "%s/%s" % (JSDIR, fname)
     isCreation = not os.path.isfile(file_path)
     isEmpty = txt == ''
@@ -148,8 +158,8 @@ def save(playername, filename):
     if isDeletion:
         os.remove(file_path)
     else:
-        with io.open(file_path, "wt", encoding=ENCODING) as f:
-            f.write(unicode(txt))
+        set_file_content(file_path, txt)
+
     if repo.is_dirty(untracked_files=True):
         if isDeletion:
             repo.index.remove([file_path])
