@@ -3,36 +3,33 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Editing {{fname}}</title>
 
-    <link rel="stylesheet" type="text/css" href="/static/css/droplet.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <style>
       body {
         font-family: sans-serif;
-        overflow: hidden;
-        margin: 0px; padding: 0px;
+        margin: 0px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
       }
       #editor {
-        position: absolute;
-        top: 3em;
-        bottom: 0px;
-        right: 0px;
-        left: 0px;
-        background-color: #EEE;
-        z-index: 0;
+        flex: 1;
+        position: relative;
       }
-      #toolbar {
-        z-index: 9999;
-        top: 1.5em;
-        position: absolute;
+      #header, #toolbar {
+        flex: 0;
+        padding: 5px;
       }
     </style>
   </head>
 <body>
-<p><b>Editing {{fname}}</b>
+<div id="header">
+<b>Editing {{fname}}</b>
 <span id="status">
 {% if not can_save %} (not yours) {% else %} (saved) {% endif %}
 </span>
 - <a href="/edit/">back</a>
+</div>
 <div id="toolbar">
   <input type='button' {% if not can_save %} disabled {% endif %} id="saveButton" value='Save'/>
   <input type='button' id="cleanButton" value='Clean'/>
@@ -41,13 +38,7 @@
 <div id="editor" data-file-url="{{file_url}}" {% if can_save %} data-save-url="{{save_url}}" {% else %} data-read-only="true" {% endif %}>
 </div>
 
-<script src="/static/js/jquery.js"></script>
-<script src="/static/js/ace/ace.js"></script>
-<script src="/static/js/beautify.js"></script>
-<script src="/static/js/require.js"></script>
-<script src="/static/js/droplet-full.js"></script>
-<script src="/static/js/dropletOptions.js"></script>
-<script src="/static/js/editfile_ace.js"></script>
+<script src="/static/js/bundle.js"></script>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-var dropletOptions = {
+module.exports = {
   mode: 'javascript',
   modeOptions: {
     blockFunctions: []
