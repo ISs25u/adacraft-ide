@@ -7,31 +7,29 @@
     <style>
       body {
         font-family: sans-serif;
-        overflow: hidden;
-        margin: 0px; padding: 0px;
+        margin: 0px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
       }
       #editor {
-        position: absolute;
-        top: 3em;
-        bottom: 0px;
-        right: 0px;
-        left: 0px;
-        background-color: #EEE;
-        z-index: 0;
+        flex: 1;
+        position: relative;
       }
-      #toolbar {
-        z-index: 9999;
-        top: 1.5em;
-        position: absolute;
+      #header, #toolbar {
+        flex: 0;
+        padding: 5px;
       }
     </style>
   </head>
 <body>
-<p><b>Editing {{fname}}</b>
+<div id="header">
+<b>Editing {{fname}}</b>
 <span id="status">
 {% if not can_save %} (not yours) {% else %} (saved) {% endif %}
 </span>
 - <a href="/edit/">back</a>
+</div>
 <div id="toolbar">
   <input type='button' {% if not can_save %} disabled {% endif %} id="saveButton" value='Save'/>
   <input type='button' id="cleanButton" value='Clean'/>
