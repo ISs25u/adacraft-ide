@@ -8,6 +8,15 @@ var aceEditor = null;
 
 var onLoadHandler = null;
 
+function emit_onLoad(content) {
+  try {
+    if (onLoadHandler) {
+      onLoadHandler(content);
+    }
+  } catch(e) {
+  }
+}
+
 $('#editor').each(function () {
   var $editor = $(this);
   var readOnly = !!$editor.data('readOnly');
@@ -20,7 +29,7 @@ $('#editor').each(function () {
 
   $.get($editor.data("fileUrl"), function(content) {
     aceEditor.setValue(content);
-    if(onLoadHandler) onLoadHandler(content);
+    emit_onLoad(content);
 
     $('#cleanButton').click(function () {
       var original = aceEditor.getValue();

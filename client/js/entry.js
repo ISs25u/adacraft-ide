@@ -2,6 +2,8 @@ var textEditor = require('./editfile_ace.js');
 
 var Blockly = require('./blockly');
 
+var BLOCKS_MARKER = '/* Blocks\n';
+
 var workspace = Blockly.inject('blocklyDiv',
                                {
                                    toolbox: document.getElementById('toolbox'),
@@ -25,14 +27,17 @@ workspace.addChangeListener(function() {
 
   var text = Blockly.Xml.domToPrettyText(xml);
 
-  code = code + '/* Blocks\n' + text.replace(/\/\*/g, '/<!-- -->*') + '\n*/\n';
+  code = code + BLOCKS_MARKER + text.replace(/\/\*/g, '/<!-- -->*') + '\n*/\n';
 
   textEditor.setContent(code);
 });
 
 textEditor.onLoad(function(code) {
-  var text = code.split('/* Blocks\n')[1].replace(/\*\//g, '');
-  var xml = Blockly.Xml.textToDom(text);
-  workspace.clear();
-  Blockly.Xml.domToWorkspace(xml, workspace);
+  var text = code.split(BLOCKS_MARKER)[1];
+  if (text) {
+    text = text.replace(/\*\//g, '');
+    var xml = Blockly.Xml.textToDom(text);
+    workspace.clear();
+    Blockly.Xml.domToWorkspace(xml, workspace);
+  }
 });
