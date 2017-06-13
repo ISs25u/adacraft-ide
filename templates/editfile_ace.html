@@ -12,9 +12,17 @@
         display: flex;
         flex-direction: column;
       }
+      #editors {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+      }
       #editor {
         flex: 1;
         position: relative;
+      }
+      #blockly {
+        flex: 1;
       }
       #header, #toolbar {
         flex: 0;
@@ -35,7 +43,23 @@
   <input type='button' id="cleanButton" value='Clean'/>
   <input type='button' id="toggleBlocksButton" value='Toggle Blocks'/>
 </div>
+<div id="editors">
 <div id="editor" data-file-url="{{file_url}}" {% if can_save %} data-save-url="{{save_url}}" {% else %} data-read-only="true" {% endif %}>
+</div>
+
+<div id="blockly">
+  <div id="blocklyDiv" style="height: 700px; width: 600px;"></div>
+
+  <xml id="toolbox" style="display: none">
+    <block type="controls_if"></block>
+    <block type="controls_repeat_ext"></block>
+    <block type="logic_compare"></block>
+    <block type="math_number"></block>
+    <block type="math_arithmetic"></block>
+    <block type="text"></block>
+    <block type="text_print"></block>
+  </xml>
+</div>
 </div>
 
 <script src="/static/js/bundle.js"></script>
