@@ -41,7 +41,6 @@
 <div id="toolbar">
   <input type='button' {% if not can_save %} disabled {% endif %} id="saveButton" value='Save'/>
   <input type='button' id="cleanButton" value='Clean'/>
-  <input type='button' id="toggleBlocksButton" value='Toggle Blocks'/>
 </div>
 <div id="editors">
 <div id="editor" data-file-url="{{file_url}}" {% if can_save %} data-save-url="{{save_url}}" {% else %} data-read-only="true" {% endif %}>

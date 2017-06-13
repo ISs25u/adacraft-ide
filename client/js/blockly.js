@@ -4,6 +4,7 @@ window.Blockly = blockly.Blockly;
 window.goog = blockly.goog;
 
 require('imports-loader?this=>window!blockly/blocks_compressed.js');
+require('imports-loader?this=>window!blockly/javascript_compressed.js');
 require('imports-loader?this=>window!blockly/msg/js/en.js');
 
 module.exports = blockly.Blockly;
