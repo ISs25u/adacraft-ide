@@ -4,9 +4,23 @@ var Blockly = require('./blockly');
 
 var BLOCKS_MARKER = '/* Blocks\n';
 
+var default_toolbox = `
+<xml>
+  <category name="Standard blocks">
+    <block type="controls_if"></block>
+    <block type="controls_repeat_ext"></block>
+    <block type="logic_compare"></block>
+    <block type="math_number"></block>
+    <block type="math_arithmetic"></block>
+    <block type="text"></block>
+    <block type="text_print"></block>
+  </category>
+</xml>
+`;
+
 var workspace = Blockly.inject('blocklyDiv',
                                {
-                                   toolbox: document.getElementById('toolbox'),
+                                   toolbox: default_toolbox,
                                    media: "/static/blockly/",
                                    trashcan: true,
                                    zoom:
@@ -27,7 +41,8 @@ workspace.addChangeListener(function() {
 
   var text = Blockly.Xml.domToPrettyText(xml);
 
-  code = code + BLOCKS_MARKER + text.replace(/\*\//g, '*<!-- -->/') + '\n*/\n';
+  code = '// Generated file - DO NOT EDIT!\n' +
+    code + '\n' + BLOCKS_MARKER + text.replace(/\*\//g, '*<!-- -->/') + '\n*/\n';
 
   textEditor.setContent(code);
 });

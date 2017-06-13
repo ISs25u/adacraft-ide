@@ -24,5 +24,8 @@ COPY . /usr/src/app/
 
 RUN yarn build -- -p
 
+ENV SRCDIR=/data/scriptcraft/players
+ENV EXTDIR=/data/ide-ext
+
 EXPOSE 5000
 CMD [ "python", "./main.py" ]
