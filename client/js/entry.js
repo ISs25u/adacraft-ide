@@ -27,7 +27,7 @@ workspace.addChangeListener(function() {
 
   var text = Blockly.Xml.domToPrettyText(xml);
 
-  code = code + BLOCKS_MARKER + text.replace(/\/\*/g, '/<!-- -->*') + '\n*/\n';
+  code = code + BLOCKS_MARKER + text.replace(/\*\//g, '*<!-- -->/') + '\n*/\n';
 
   textEditor.setContent(code);
 });
