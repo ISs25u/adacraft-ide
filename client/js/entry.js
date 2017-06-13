@@ -4,19 +4,18 @@ var Blockly = require('./blockly');
 
 var BLOCKS_MARKER = '/* Blocks\n';
 
-var default_toolbox = `
-<xml>
-  <category name="Standard blocks">
-    <block type="controls_if"></block>
-    <block type="controls_repeat_ext"></block>
-    <block type="logic_compare"></block>
-    <block type="math_number"></block>
-    <block type="math_arithmetic"></block>
-    <block type="text"></block>
-    <block type="text_print"></block>
-  </category>
-</xml>
-`;
+var default_toolbox =
+   '<xml>' +
+   '   <category name="Standard" colour="210">' +
+   '     <block type="controls_if"></block>' +
+   '     <block type="controls_repeat_ext"></block>' +
+   '     <block type="logic_compare"></block>' +
+   '     <block type="math_number"></block>' +
+   '     <block type="math_arithmetic"></block>' +
+   '     <block type="text"></block>' +
+   '     <block type="text_print"></block>' +
+   '   </category>' +
+   '</xml>';
 
 var workspace = Blockly.inject('blocklyDiv',
                                {
