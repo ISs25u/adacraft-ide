@@ -24,7 +24,7 @@ from flask import Flask, make_response, request, session, render_template, flash
 
 ENCODING = "UTF-8"
 JSDIR = os.environ['SRCDIR']
-EXTDIR = os.environ['EXTDIR']
+EXTDIR = os.environ.get('EXTDIR')
 DEBUG = 'DEBUG' in os.environ
 SECRET = os.environ['SECRET']
 
@@ -172,9 +172,10 @@ def save(playername, filename):
     return ""
 
 
-@app.route('/ide-ext/<path:path>')
-def send_ext(path):
-    return send_from_directory(EXTDIR, path)
+if EXTDIR is not None:
+    @app.route('/ide-ext/<path:path>')
+    def send_ext(path):
+        return send_from_directory(EXTDIR, path)
 
 
 def term_handler(signum, frame):
