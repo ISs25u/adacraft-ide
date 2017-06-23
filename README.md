@@ -3,6 +3,20 @@ It is derived from John Markus Bjørndalen experiment.
 
 # Installing and running
 
+## Generating the client bundle
+
+Run `webpack`:
+
+```
+$ npm run build
+```
+
+In development, you can run `webpack` in _watch_ mode:
+
+```
+$ npm run build -- -w
+```
+
 ## The python way
 
 ```

@@ -14,6 +14,7 @@ function emit_onLoad(content) {
       onLoadHandler(content);
     }
   } catch(e) {
+    console.error(e);
   }
 }
 
@@ -54,6 +55,10 @@ $('#editor').each(function () {
     }
   });
 });
+
+exports.getContent = function() {
+  return aceEditor.getValue();
+};
 
 exports.setContent = function(code) {
   var original = aceEditor.getValue();

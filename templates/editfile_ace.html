@@ -14,15 +14,16 @@
       }
       #editors {
         flex: 1;
+        position: relative;
         display: flex;
-        flex-direction: row;
       }
       #editor {
         flex: 1;
-        position: relative;
       }
-      #blockly {
-        flex: 1;
+      #blocklyDiv {
+        position: absolute;
+        z-index: 1000;
+        visibility: hidden;
       }
       #header, #toolbar {
         flex: 0;
@@ -41,19 +42,17 @@
 <div id="toolbar">
   <input type='button' {% if not can_save %} disabled {% endif %} id="saveButton" value='Save'/>
   <input type='button' id="cleanButton" value='Clean'/>
+  <input type='button' id="toggleBlocksButton" value='Toggle Blocks'/>
 </div>
 <div id="editors">
-<div id="editor" data-file-url="{{file_url}}" {% if can_save %} data-save-url="{{save_url}}" {% else %} data-read-only="true" {% endif %}>
-</div>
+  <div id="editor" data-file-url="{{file_url}}"
+     {% if can_save %} data-save-url="{{save_url}}" {% else %} data-read-only="true" {% endif %}>
+  </div>
 
-<div id="blockly">
-  <div id="blocklyDiv" style="height: 700px; width: 600px;"></div>
-
-</div>
+  <div id="blocklyDiv"></div>
 </div>
 
 <script src="/static/js/bundle.js"></script>
-<script src="/ide-ext/index.js"></script>
 
 </body>
 </html>
