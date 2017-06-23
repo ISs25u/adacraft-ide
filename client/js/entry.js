@@ -60,7 +60,6 @@ function setupBlockly(onReady) {
 }
 
 function onTextChanged() {
-  console.log('text changed', textEditor.getContent());
   var text = textEditor.getContent().split(BLOCKS_MARKER)[1];
   if (text) {
     text = text.replace(/\*\//g, '');
