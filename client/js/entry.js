@@ -1,7 +1,6 @@
 var $ = require('jquery');
 var textEditor = require('./editfile_ace.js');
-
-var Blockly = require('./blockly');
+var Blockly = null;
 
 var BLOCKS_MARKER = '/* Blocks\n';
 
@@ -20,38 +19,43 @@ var default_toolbox =
 
 var workspace = null;
 
-function setupBlockly() {
-  workspace = Blockly.inject('blocklyDiv',
-                                 {
-                                     toolbox: default_toolbox,
-                                     media: "/static/blockly/",
-                                     trashcan: true,
-                                     zoom:
-                                         {controls: true,
-                                             wheel: true,
-                                             startScale: 1.0,
-                                             maxScale: 3,
-                                             minScale: 0.3,
-                                             scaleSpeed: 1.2},
-                                 });
+function setupBlockly(onReady) {
+  require.ensure(['./blockly'], function() {
+    Blockly = require('./blockly');
 
-  workspace.addChangeListener(function() {
-    var code = Blockly.JavaScript.workspaceToCode(workspace);
+    workspace = Blockly.inject('blocklyDiv',
+                                   {
+                                       toolbox: default_toolbox,
+                                       media: "/static/blockly/",
+                                       trashcan: true,
+                                       zoom:
+                                           {controls: true,
+                                               wheel: true,
+                                               startScale: 1.0,
+                                               maxScale: 3,
+                                               minScale: 0.3,
+                                               scaleSpeed: 1.2},
+                                   });
 
-    var omitBlockIds = true;
+    workspace.addChangeListener(function() {
+      var code = Blockly.JavaScript.workspaceToCode(workspace);
 
-    var xml = Blockly.Xml.workspaceToDom(workspace, omitBlockIds);
+      var omitBlockIds = true;
 
-    var text = Blockly.Xml.domToPrettyText(xml);
+      var xml = Blockly.Xml.workspaceToDom(workspace, omitBlockIds);
 
-    code = '// Generated file - DO NOT EDIT!\n' +
-      code + '\n' + BLOCKS_MARKER + text.replace(/\*\//g, '*<!-- -->/') + '\n*/\n';
+      var text = Blockly.Xml.domToPrettyText(xml);
 
-    textEditor.setContent(code);
-  });
+      code = '// Generated file - DO NOT EDIT!\n' +
+        code + '\n' + BLOCKS_MARKER + text.replace(/\*\//g, '*<!-- -->/') + '\n*/\n';
 
-  $.getScript('/ide-ext/index.js').always(function() {
-    onTextChanged();
+      textEditor.setContent(code);
+    });
+
+    $.getScript('/ide-ext/index.js').always(function() {
+      onTextChanged();
+      onReady();
+    });
   });
 }
 
@@ -95,14 +99,17 @@ function setBlocklyVisible(visible) {
       $('#editor').css('visibility', 'visible');
       $('#blocklyDiv').css('visibility', 'hidden');
     } else {
+      if(!Blockly) {
+        setupBlockly(function() {
+          setBlocklyVisible(true);
+        });
+        return;
+      }
+
       $('#editor').css('visibility', 'hidden');
       $('#blocklyDiv').css('visibility', 'visible');
 
-      if(!workspace) {
-        setupBlockly();
-      } else {
-        onTextChanged();
-      }
+      onTextChanged();
 
       $(window).on('resize', onResize);
       onResize();
