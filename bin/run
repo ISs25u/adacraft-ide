@@ -26,7 +26,6 @@ COMMON_ARGS="--detach=true \
   --restart=always \
   --volumes-from ${data_container} \
   --log-opt max-size=100m --log-opt max-file=10 \
-  -e SRCDIR=/data/scriptcraft/players \
   -e SECRET=${secret} \
   -e SLACK_HOOK=${slack_hook} \
   -e VIRTUAL_HOST=code.${subdomain}${subdomain:+.}gnancraft.net \
