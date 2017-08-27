@@ -40,7 +40,7 @@ fi
 
 if $(docker ps -a | grep "\b${ide_container} *$" >/dev/null) ; then
   docker stop $ide_container
-  docker rm -v $ide_container
+  docker rm $ide_container
 fi
 
 if [[ "$1" != stop ]] ; then
