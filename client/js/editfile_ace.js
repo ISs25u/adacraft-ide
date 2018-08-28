@@ -46,9 +46,12 @@ $('#editor').each(function () {
 
       $('#saveButton').click(function () {
         var txt = aceEditor.getValue();
+        var button = $(this);
+        button.prop("disabled", true);
         $.post($editor.data('saveUrl'), { text : txt }, 
           function(data, txtStatus) {
             $('#status').text("(saved)");
+            button.prop("disabled", false);
           }
         );
       });
