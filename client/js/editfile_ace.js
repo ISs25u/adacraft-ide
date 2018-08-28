@@ -45,10 +45,17 @@ $('#editor').each(function () {
       });
 
       $('#saveButton').click(function () {
+        var button = this;
+        button.disabled = true;
         var txt = aceEditor.getValue();
-        $.post($editor.data('saveUrl'), { text : txt }, 
-          function(data, txtStatus) {
+        $.post({
+          url: $editor.data('saveUrl'),
+          data: { text : txt },
+          success: function(data, txtStatus) {
             $('#status').text("(saved)");
+          },
+          complete: function() {
+            button.disabled = false;
           }
         );
       });
