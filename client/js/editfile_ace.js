@@ -57,7 +57,7 @@ $('#editor').each(function () {
           complete: function() {
             button.disabled = false;
           }
-        );
+        });
       });
     }
   });
