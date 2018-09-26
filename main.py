@@ -18,6 +18,7 @@ import io                   # Better alternative for unicode files.
 import glob
 import os
 import signal
+import mftp
 from git import Actor, Repo
 
 from flask import Flask, make_response, request, session, render_template, flash, redirect, url_for, send_from_directory
@@ -32,17 +33,30 @@ repo = None
 
 
 def get_file_content(file_path):
+
+    print("Will get content of %s"%file_path)
+
+    playername, filename = file_path.split('/')
+
     try:
-        return io.open(file_path, "r", encoding=ENCODING).read()
+        #return io.open(file_path, "r", encoding=ENCODING).read()
+        return mftp.load_file(playername,filename)
     except:
         return ""
 
 
 def set_file_content(file_path, txt):
-    if not os.path.isdir(os.path.dirname(file_path)):
-        os.makedirs(os.path.dirname(file_path))
-    with io.open(file_path, "wt", encoding=ENCODING) as f:
-        f.write(unicode(txt))
+
+    print("Will set content of %s"%file_path)
+
+    playername, filename = file_path.split('/')
+
+    #if not os.path.isdir(os.path.dirname(file_path)):
+    #    os.makedirs(os.path.dirname(file_path))
+    #with io.open(file_path, "wt", encoding=ENCODING) as f:
+    #    f.write(unicode(txt))
+
+    mftp.save_file(playername, filename, txt)
 
 
 def logged_in_player():
@@ -87,13 +101,7 @@ def logout():
 def edit():
     "lists files we might want to edit"
 
-    directories = glob.glob("%s/*/" % (JSDIR,))
-    fnames = {}
-    for directory in directories:
-        files = glob.glob("%s*.js" % (directory))
-        dirname = os.path.basename(os.path.dirname(directory))
-        if files:
-            fnames[dirname] = [os.path.basename(f) for f in files]
+    fnames = mftp.list_files()
     ownedFiles = None
     playerDir = None
     if logged_in_player():
@@ -115,6 +123,8 @@ def edit():
 def editfile(playername, filename):
     "edit the content of a file"
 
+    print("Editing %s/%s"%(playername,filename))
+
     fname = playername + '/' + filename
 
     app.logger.debug(url_for("load", playername=playername, filename=filename))
@@ -132,9 +142,11 @@ def editfile(playername, filename):
 def load(playername, filename):
     "get the content of a file"
 
+    print("Loading %s/%s"%(playername,filename))
+
     fname = playername + '/' + filename
-    response = make_response(get_file_content("%s/%s" % (JSDIR, fname)))
-    response.headers['Content-Type'] = "text/javascrpt"
+    response = make_response(get_file_content("%s"%fname))
+    response.headers['Content-Type'] = "text/javascript"
     response.headers['Content-Disposition'] = "inline; filename=" + filename
     return response
 
@@ -143,6 +155,8 @@ def load(playername, filename):
 def save(playername, filename):
     "Handles save file"
 
+    print("Saving %s/%s"%(playername,filename))
+
     if logged_in_player() != playername:
         return "", 403
 
@@ -150,25 +164,10 @@ def save(playername, filename):
     app.logger.debug("Saving file %s" % fname)
 
     txt = request.form['text']
-    file_path = "%s/%s" % (JSDIR, fname)
-    isCreation = not os.path.isfile(file_path)
-    isEmpty = txt == ''
-    if isCreation and isEmpty:
-        return ''
-    isDeletion = isEmpty and not isCreation
-    if isDeletion:
-        os.remove(file_path)
-    else:
-        set_file_content(file_path, txt)
+    
+    file_path = "%s"%fname
+    set_file_content(file_path, txt)
 
-    if repo.is_dirty(untracked_files=True):
-        if isDeletion:
-            repo.index.remove([file_path])
-        else:
-            repo.index.add([file_path])
-        commit_message_prefix = 'create' if isCreation else ('delete' if isDeletion else 'update')
-        author = Actor(playername, "unknown@email")
-        repo.index.commit('%s %s' % (commit_message_prefix, fname), author=author)
     return ""
 
 
