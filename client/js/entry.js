@@ -6,7 +6,7 @@ var BLOCKS_MARKER = '/* Blocks\n';
 
 var default_toolbox =
    '<xml>' +
-   '   <category name="Standard" colour="210">' +
+   '   <category name="La Base" colour="210">' +
    '     <block type="controls_if"></block>' +
    '     <block type="controls_repeat_ext"></block>' +
    '     <block type="logic_compare"></block>' +

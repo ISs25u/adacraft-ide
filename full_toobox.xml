@@ -1,5 +1,5 @@
 var full_toolbox = 
-'<xml id="toolbox" style="display: none">' +
+'<xml>' +
 '    <sep></sep>' +
 '    <category id="catDrone">' +
 '        <block type="drone"></block>' +
@@ -190,4 +190,4 @@ var full_toolbox =
 '    <category id="catVariables" custom="VARIABLE">' +
 '        <category id="catColour">' +
 '        </category>' +
-'</xml>'
+'</xml>';
