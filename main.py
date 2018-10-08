@@ -44,7 +44,8 @@ def get_file_content(file_path):
         if FILEMODE == 'SSH' :
 	    return mftp.load_file(playername,filename)
         else :
-            return io.open("%s/%s"%(JSDIR/file_path), "r", encoding=ENCODING).read()
+	    with open("%s/%s"%(JSDIR,file_path),'r') as f :
+                return f.read()
 
     except:
         return ""
@@ -67,9 +68,8 @@ def set_file_content(file_path, txt):
         if not os.path.isdir(os.path.dirname("%s/%s"%(JSDIR,file_path))):
             os.makedirs(os.path.dirname("%s/%s"%(JSDIR,file_path)))
         
-        with io.open("%s/%s"%(JSDIR,file_path)) as f :
-            f.write(unicode(txt))
-
+        with open("%s/%s"%(JSDIR,file_path), 'w') as f :
+            f.write(txt)
 
 
 def logged_in_player():
@@ -118,9 +118,10 @@ def edit():
         fnames = mftp.list_files()
     else :
         directories = glob.glob("%s/*/"%(JSDIR))
+        print("DIRS: %s"%directories)
         fnames = {}
         for directory in directories:
-            files = glob.glob("%s*.js"%JSDIR)
+            files = glob.glob("%s*.js"%directory)
             dirname = os.path.basename(os.path.dirname(directory))
             if files :
                 fnames[dirname] = [os.path.basename(f) for f in files]
