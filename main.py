@@ -28,6 +28,7 @@ JSDIR = os.environ['SRCDIR']
 EXTDIR = os.environ.get('EXTDIR')
 DEBUG = 'DEBUG' in os.environ
 SECRET = os.environ['SECRET']
+FILEMODE = 'LOCAL'
 
 repo = None
 
@@ -39,8 +40,12 @@ def get_file_content(file_path):
     playername, filename = file_path.split('/')
 
     try:
-        #return io.open(file_path, "r", encoding=ENCODING).read()
-        return mftp.load_file(playername,filename)
+
+        if FILEMODE == 'SSH' :
+	    return mftp.load_file(playername,filename)
+        else :
+            return io.open("%s/%s"%(JSDIR/file_path), "r", encoding=ENCODING).read()
+
     except:
         return ""
 
@@ -56,7 +61,15 @@ def set_file_content(file_path, txt):
     #with io.open(file_path, "wt", encoding=ENCODING) as f:
     #    f.write(unicode(txt))
 
-    mftp.save_file(playername, filename, txt)
+    if FILEMODE == 'SSH' :
+        mftp.save_file(playername, filename, txt)
+    else :
+        if not os.path.isdir(os.path.dirname("%s/%s"%(JSDIR,file_path))):
+            os.makedirs(os.path.dirname("%s/%s"%(JSDIR,file_path)))
+        
+        with io.open("%s/%s"%(JSDIR,file_path)) as f :
+            f.write(unicode(txt))
+
 
 
 def logged_in_player():
@@ -101,7 +114,17 @@ def logout():
 def edit():
     "lists files we might want to edit"
 
-    fnames = mftp.list_files()
+    if FILEMODE == 'SSH' :
+        fnames = mftp.list_files()
+    else :
+        directories = glob.glob("%s/*/"%(JSDIR))
+        fnames = {}
+        for directory in directories:
+            files = glob.glob("%s*.js"%JSDIR)
+            dirname = os.path.basename(os.path.dirname(directory))
+            if files :
+                fnames[dirname] = [os.path.basename(f) for f in files]
+  
     ownedFiles = None
     playerDir = None
     if logged_in_player():
@@ -193,6 +216,6 @@ def init_repo():
         app.logger.info("Git repo initialized")
 
 if __name__ == "__main__":
-    init_repo()
+    #init_repo()
     signal.signal(signal.SIGTERM, term_handler)
-    app.run(host='0.0.0.0', debug=DEBUG)
+    app.run(host='5.196.73.114', debug=DEBUG)
