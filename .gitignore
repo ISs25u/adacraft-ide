@@ -1,4 +1,3 @@
 *.py[cod]
 /env/
-/static/
 /node_modules/
