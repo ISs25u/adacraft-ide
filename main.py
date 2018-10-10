@@ -153,7 +153,7 @@ def editfile(playername, filename):
 
     app.logger.debug(url_for("load", playername=playername, filename=filename))
     return render_template(
-        'editfile_ace_2.html',
+        'editfile_ace.html',
         fname=fname,
         logged_in_player=logged_in_player(),
         can_save=logged_in_player() == playername,
