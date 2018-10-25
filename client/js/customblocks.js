@@ -9,22 +9,8 @@ Contains the description of the Minecraft blocks for Blockly
 //Naturally generated and created material blocks http://minecraft.gamepedia.com/Block 
 var materials = getObjNames(Blockly.Msg.OBJNAMES, [0, 1, 2, 3, 4, 7, 8, 10, 12, 13, 14, 15, 16, 17, 18, 20, 21, 24, 27, 31, 32, 37, 38, 39, 40, 41, 44, 46, 49, 51, 55, 56, 65, 66, 73, 78, 79, 80, 81, 82, 83, 85, 86, 93, 99, 100, 103, 106, 110, 111, 129, 152, 159, 161, 162, 172, 174, 175]);
 
-//http://minecraft.gamepedia.com/Tools
-var items_tools = getObjNames(Blockly.Msg.ITEMS_NAMES, ['diamondAxe', 'diamondHoe', 'diamondSpade', 'diamondPickaxe', 'shears', 'flintAndSteel', 'fishingRod', 'bed', 'torch']);
-
-//http://minecraft.gamepedia.com/Food -> Vegetarian diet :-)
-var items_food = getObjNames(Blockly.Msg.ITEMS_NAMES, ['carrot', 'potato', 'cocoa', 'apple', 'melon', 'sugar', 'milkBucket', 'egg', 'wheat', 'pumpkin']);
-
-//http://minecraft.gamepedia.com/Transportation
-var items_transportation = getObjNames(Blockly.Msg.ITEMS_NAMES, ['rails', 'poweredRail', 'redstoneTorchOn', 'minecart']);
-
-//http://minecraft.gamepedia.com/Armor
-var items_weapons_armor = getObjNames(Blockly.Msg.ITEMS_NAMES, ['bow', 'arrow', 'diamondSword', 'diamondBoots', 'diamondChestplate', 'diamondHelmet', 'diamondLeggings', 'tnt']);
-
 //Spawn passive and pameable animals http://minecraft.gamepedia.com/Mob
 var animals = getObjNames(Blockly.Msg.ANIMALS_NAMES, ['BAT', 'CHICKEN', 'COW', 'PIG', 'RABBIT', 'WOLF', 'SHEEP', 'HORSE', 'OCELOT']);
-
-
 
 // extract objects translation names from their ids/names
 function getObjNames(list, ids) {
@@ -108,7 +94,7 @@ Blockly.Blocks['drone_move'] = {
                 [Blockly.Msg.MOUVEMENT_RIGHT, "right()"],
                 [Blockly.Msg.MOUVEMENT_LEFT, "left()"],
                 [Blockly.Msg.MOUVEMENT_TURN_RIGHT, "turn()"],
-                [Blockly.Msg.MOUVEMENT_TURN_LEFT, "turn(2)"],
+                [Blockly.Msg.MOUVEMENT_TURN_LEFT, "turn(3)"],
                 [Blockly.Msg.MOUVEMENT_BACKTOSTART, "move('start')"],
                 [Blockly.Msg.MOUVEMENT_SAVESTART, "chkpt('start')"]
             ]), "direction");
@@ -187,67 +173,3 @@ Blockly.Blocks['delete'] = {
     }
 };
 
-Blockly.Blocks['inventory'] = {
-    init: function () {
-        this.appendStatementInput("statements")
-            .setCheck("")
-            .appendField(Blockly.Msg.INVENTORY)
-            .appendField(new Blockly.FieldTextInput(""), "param");
-        this.setInputsInline(true);
-        this.setColour(65);
-        this.setTooltip(Blockly.Msg.TOOLTIP_INVENTORY);
-        this.setHelpUrl('https://github.com/walterhiggins/ScriptCraft/blob/master/docs/API-Reference.md#inventory-module');
-    }
-};
-
-Blockly.Blocks['tools'] = {
-    init: function () {
-        this.appendDummyInput()
-            .appendField(Blockly.Msg.ITEMS_TOOLS)
-            .appendField(new Blockly.FieldDropdown(items_tools), "item");
-        this.setPreviousStatement(true);
-        this.setNextStatement(true);
-        this.setColour(65);
-        this.setTooltip(Blockly.Msg.TOOLTIP_TOOLS);
-        this.setHelpUrl('http://minecraft.gamepedia.com/Tools');
-    }
-};
-
-Blockly.Blocks['food'] = {
-    init: function () {
-        this.appendDummyInput()
-            .appendField(Blockly.Msg.ITEMS_FOOD)
-            .appendField(new Blockly.FieldDropdown(items_food), "item");
-        this.setPreviousStatement(true);
-        this.setNextStatement(true);
-        this.setColour(65);
-        this.setTooltip(Blockly.Msg.TOOLTIP_FOOD);
-        this.setHelpUrl('http://minecraft.gamepedia.com/Food');
-    }
-};
-
-Blockly.Blocks['transportation'] = {
-    init: function () {
-        this.appendDummyInput()
-            .appendField(Blockly.Msg.ITEMS_TRANSPORTATION)
-            .appendField(new Blockly.FieldDropdown(items_transportation), "item");
-        this.setPreviousStatement(true);
-        this.setNextStatement(true);
-        this.setColour(65);
-        this.setTooltip(Blockly.Msg.TOOLTIP_TRANSPORTATION);
-        this.setHelpUrl('http://minecraft.gamepedia.com/Transportation');
-    }
-};
-
-Blockly.Blocks['weapons_armor'] = {
-    init: function () {
-        this.appendDummyInput()
-            .appendField(Blockly.Msg.ITEMS_WEAPONS_ARMOR)
-            .appendField(new Blockly.FieldDropdown(items_weapons_armor), "item");
-        this.setPreviousStatement(true);
-        this.setNextStatement(true);
-        this.setColour(65);
-        this.setTooltip(Blockly.Msg.TOOLTIP_WEAPONS_ARMOR);
-        this.setHelpUrl('http://minecraft.gamepedia.com/Armor');
-    }
-};

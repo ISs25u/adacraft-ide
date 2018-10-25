@@ -9,10 +9,10 @@ Contains the generator for the javascript used in scriptcraft
 Blockly.JavaScript['drone'] = function (block) {
     var fname = block.getFieldValue('param');
     var statements_statements = Blockly.JavaScript.statementToCode(block, 'statements');
-    var code = "command( '" + fname + "', function ( parameters, player ) {\nvar theDrone = new Drone(player);\ntheDrone.up();\ntheDrone.chkpt('start');\n";
+    var code = "exports." + fname + " = function ( player ) {\n  var theDrone = new Drone(player);\n  theDrone.chkpt('start');\n";
     code = code + "var timeoutStop = new Date().getTime()+500;\n"; // set maximum run time for a script
     code = code + statements_statements;
-    code = code + "});";
+    code = code + "};";
     return code;
 };
 
@@ -59,37 +59,3 @@ Blockly.JavaScript['delete'] = function (block) {
     return code;
 };
 
-Blockly.JavaScript['inventory'] = function (block) {
-    var fname = block.getFieldValue('param');
-    var statements_statements = Blockly.JavaScript.statementToCode(block, 'statements');
-    var code = "var inventory = require('inventory');\nvar items = require('items');\ncommand( '" + fname + "', function ( parameters, player ) {\nvar theInventory = new inventory(player);\n";
-    code = code + "var timeoutStop = new Date().getTime()+500;\n"; // set maximum run time for a script
-    code = code + statements_statements;
-    code = code + "});";
-    return code;
-};
-
-Blockly.JavaScript['weapons_armor'] = function (block) {
-    var dropdown_item = block.getFieldValue('item');
-    var code = "theInventory.add(items." + dropdown_item + "(1))" + ";\n";
-    return code;
-};
-
-
-Blockly.JavaScript['tools'] = function (block) {
-    var dropdown_item = block.getFieldValue('item');
-    var code = "theInventory.add(items." + dropdown_item + "(1))" + ";\n";
-    return code;
-};
-
-Blockly.JavaScript['food'] = function (block) {
-    var dropdown_item = block.getFieldValue('item');
-    var code = "theInventory.add(items." + dropdown_item + "(1))" + ";\n";
-    return code;
-};
-
-Blockly.JavaScript['transportation'] = function (block) {
-    var dropdown_item = block.getFieldValue('item');
-    var code = "theInventory.add(items." + dropdown_item + "(1))" + ";\n";
-    return code;
-};

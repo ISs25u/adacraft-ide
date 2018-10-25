@@ -5,10 +5,10 @@ import time as time
 import os
 import re
 
-WDIR = '/scriptcraft/plugins/'
-USR = "mine110058"
-PWD = "Y1hElvLo"
-HST = "94.23.20.216"
+WDIR = '/scriptcraft/players/'
+USR = "mine110370"
+PWD = "Kz3qpcBe"
+HST = "94.23.221.162"
 
 def getSession():
 

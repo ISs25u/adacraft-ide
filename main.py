@@ -28,7 +28,7 @@ JSDIR = os.environ['SRCDIR']
 EXTDIR = os.environ.get('EXTDIR')
 DEBUG = 'DEBUG' in os.environ
 SECRET = os.environ['SECRET']
-FILEMODE = 'LOCAL'
+FILEMODE = 'SSH'
 
 repo = None
 
