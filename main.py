@@ -25,10 +25,11 @@ from flask import Flask, make_response, request, session, render_template, flash
 
 ENCODING = "UTF-8"
 JSDIR = os.environ['SRCDIR']
-EXTDIR = os.environ.get('EXTDIR')
+EXTDIR = os.environ['EXTDIR']
 DEBUG = 'DEBUG' in os.environ
 SECRET = os.environ['SECRET']
-FILEMODE = 'SSH'
+FILEMODE = os.environ['MODE']
+HOST = os.environ['HOST']
 
 repo = None
 
@@ -219,4 +220,6 @@ def init_repo():
 if __name__ == "__main__":
     #init_repo()
     signal.signal(signal.SIGTERM, term_handler)
-    app.run(host='5.196.73.114', debug=DEBUG)
+    app.run(host=HOST, debug=DEBUG)
+
+

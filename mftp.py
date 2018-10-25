@@ -10,6 +10,8 @@ USR = "mine110370"
 PWD = "Kz3qpcBe"
 HST = "94.23.221.162"
 
+print(os.eviron['HOST'])
+
 def getSession():
 
     session = FTP(HST)
