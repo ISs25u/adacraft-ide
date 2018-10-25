@@ -40,7 +40,7 @@ python auth.py secret username
 
 this command generates a token. You can now connect to the server with the token :
 
-[http://x.x.x.x:5000/auth/<token>](http://x.x.x.x:5000/auth/<token>)
+[http://x.x.x.x:5000/auth/\<token\>](http://x.x.x.x:5000/auth/\<token\>)
     
 ## Access your server
 
