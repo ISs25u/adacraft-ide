@@ -5,12 +5,10 @@ import time as time
 import os
 import re
 
-WDIR = '/scriptcraft/players/'
-USR = "mine110370"
-PWD = "Kz3qpcBe"
-HST = "94.23.221.162"
-
-print(os.eviron['HOST'])
+WDIR = os.environ['FTP_WDIR']
+USR = os.environ['FTP_USER']
+PWD = os.environ['FTP_PASS']
+HST = os.environ['FTP_HOST']
 
 def getSession():
 
