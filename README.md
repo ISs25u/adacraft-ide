@@ -29,7 +29,7 @@ FTP_WDIR="/path/to/distant/javascript/folder" \
 FTP_USER="ftp_username" \
 FTP_PASS="ftp_password" \
 FTP_HOST="y.y.y.y" \
-python /home/blac/adacraft-ide/main.py
+python /path/to/adacraft-ide/main.py
 ```
 
 ## Create your token
