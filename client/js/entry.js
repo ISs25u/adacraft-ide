@@ -6,16 +6,71 @@ var BLOCKS_MARKER = '/* Blocks\n';
 
 var full_toolbox =
 '<xml>' +
-'    <category name="Scriptcraft">' +
+'    <category name="Drone" colour="10">' +
 '        <block type="drone"></block>' +
-'        <block type="animals"></block>' +
-'        <block type="rectangle"></block>' +
-'        <block type="circle"></block>' +
-'        <block type="delete"></block>' +
-'        <block type="drone_move"></block>' +
-'        <block type="materials"></block>' +
+'        <block type="drone_move">' +
+'          <value name="number">' +
+'            <shadow type="math_number">' +
+'              <field name="NUM">1</field>' +
+'            </shadow>' +
+'          </value>' +
+'        </block>' +
+'        <block type="drone_turn"></block>' +
+'        <block type="drone_chkpt"></block>' +
 '    </category>' +
-'    <category name="Logique">' +
+'    <category name="Construction" colour="60">' +
+'        <block type="block"></block>' +
+'        <block type="monoblock">' +
+'          <value name="material">' +
+'            <shadow type="block">' +
+'              <field name="material">\'1\'</field>' +
+'            </shadow>' +
+'          </value>' +
+'        </block>' +
+'        <block type="objects"></block>' +
+'        <block type="animals"></block>' +
+'        <block type="rectangle">' +
+'          <value name="width">' +
+'            <shadow type="math_number">' +
+'              <field name="NUM">5</field>' +
+'            </shadow>' +
+'          </value>' +
+'          <value name="lenght">' +
+'            <shadow type="math_number">' +
+'              <field name="NUM">5</field>' +
+'            </shadow>' +
+'          </value>' +
+'          <value name="height">' +
+'            <shadow type="math_number">' +
+'              <field name="NUM">5</field>' +
+'            </shadow>' +
+'          </value>' +
+'          <value name="material">' +
+'            <shadow type="block">' +
+'              <field name="material">\'1\'</field>' +
+'            </shadow>' +
+'          </value>' +
+'        </block>' +
+'        <block type="cylinder">' +
+'          <value name="radius">' +
+'            <shadow type="math_number">' +
+'              <field name="NUM">4</field>' +
+'            </shadow>' +
+'          </value>' +
+'          <value name="height">' +
+'            <shadow type="math_number">' +
+'              <field name="NUM">1</field>' +
+'            </shadow>' +
+'          </value>' +
+'          <value name="material">' +
+'            <shadow type="block">' +
+'              <field name="material">\'1\'</field>' +
+'            </shadow>' +
+'          </value>' +
+'        </block>' +
+'    </category>' +
+'    <sep></sep>' +
+'    <category name="Logique" colour="210">' +
 '        <block type="controls_if"></block>' +
 '        <block type="logic_compare"></block>' +
 '        <block type="logic_operation"></block>' +
@@ -24,35 +79,35 @@ var full_toolbox =
 '        <block type="logic_null"></block>' +
 '        <block type="logic_ternary"></block>' +
 '    </category>' +
-'    <category name="Boucles">' +
+'    <category name="Boucles" colour="120">' +
 '        <block type="controls_repeat_ext">' +
 '            <value name="TIMES">' +
-'                <block type="math_number">' +
+'                <shadow type="math_number">' +
 '                    <field name="NUM">10</field>' +
-'                </block>' +
+'                </shadow>' +
 '            </value>' +
 '        </block>' +
 '        <block type="controls_whileUntil"></block>' +
 '        <block type="controls_for">' +
 '            <value name="FROM">' +
-'                <block type="math_number">' +
+'                <shadow type="math_number">' +
 '                    <field name="NUM">1</field>' +
-'                </block>' +
+'                </shadow>' +
 '            </value>' +
 '            <value name="TO">' +
-'                <block type="math_number">' +
+'                <shadow type="math_number">' +
 '                    <field name="NUM">10</field>' +
-'                </block>' +
+'                </shadow>' +
 '            </value>' +
 '            <value name="BY">' +
-'                <block type="math_number">' +
+'                <shadow type="math_number">' +
 '                    <field name="NUM">1</field>' +
-'                </block>' +
+'                </shadow>' +
 '            </value>' +
 '        </block>' +
 '        <block type="controls_flow_statements"></block>' +
 '    </category>' +
-'    <category name="Maths">' +
+'    <category name="Maths" colour="230">' +
 '        <block type="math_number"></block>' +
 '        <block type="math_arithmetic"></block>' +
 '        <block type="math_single"></block>' +
@@ -71,79 +126,39 @@ var full_toolbox =
 '        <block type="math_modulo"></block>' +
 '        <block type="math_constrain">' +
 '            <value name="LOW">' +
-'                <block type="math_number">' +
+'                <shadow type="math_number">' +
 '                    <field name="NUM">1</field>' +
-'                </block>' +
+'                </shadow>' +
 '            </value>' +
 '            <value name="HIGH">' +
-'                <block type="math_number">' +
+'                <shadow type="math_number">' +
 '                    <field name="NUM">100</field>' +
-'                </block>' +
+'                </shadow>' +
 '            </value>' +
 '        </block>' +
 '        <block type="math_random_int">' +
 '            <value name="FROM">' +
-'                <block type="math_number">' +
+'                <shadow type="math_number">' +
 '                    <field name="NUM">1</field>' +
-'                </block>' +
+'                </shadow>' +
 '            </value>' +
 '            <value name="TO">' +
-'                <block type="math_number">' +
+'                <shadow type="math_number">' +
 '                    <field name="NUM">100</field>' +
-'                </block>' +
+'                </shadow>' +
 '            </value>' +
 '        </block>' +
 '        <block type="math_random_float"></block>' +
 '    </category>' +
 '    <sep></sep>' +
-'    <category name="Texte">' +
-'        <block type="text"></block>' +
-'        <block type="text_join"></block>' +
-'        <block type="text_append">' +
-'            <value name="TEXT">' +
-'                <block type="text"></block>' +
-'            </value>' +
-'        </block>' +
-'        <block type="text_length"></block>' +
-'        <block type="text_isEmpty"></block>' +
-'        <block type="text_indexOf">' +
-'            <value name="VALUE">' +
-'                <block type="variables_get">' +
-'                    <field name="VAR" class="textVar">...</field>' +
-'                </block>' +
-'            </value>' +
-'        </block>' +
-'        <block type="text_charAt">' +
-'            <value name="VALUE">' +
-'                <block type="variables_get">' +
-'                    <field name="VAR" class="textVar">...</field>' +
-'                </block>' +
-'            </value>' +
-'        </block>' +
-'        <block type="text_getSubstring">' +
-'            <value name="STRING">' +
-'                <block type="variables_get">' +
-'                    <field name="VAR" class="textVar">...</field>' +
-'                </block>' +
-'            </value>' +
-'        </block>' +
-'        <block type="text_changeCase"></block>' +
-'        <block type="text_trim"></block>' +
-'        <block type="text_print"></block>' +
-'        <block type="text_prompt_ext">' +
-'            <value name="TEXT">' +
-'                <block type="text"></block>' +
-'            </value>' +
-'        </block>' +
-'    </category>' +
-'    <category name="Listes">' +
+'    <category name="Listes" colour="270">' +
 '        <block type="lists_create_empty"></block>' +
 '        <block type="lists_create_with"></block>' +
 '        <block type="lists_repeat">' +
 '            <value name="NUM">' +
-'                <block type="math_number">' +
+'                <shadow type="math_number">' +
 '                    <field name="NUM">5</field>' +
-'                </block>' +
+'                </shadow>' +
 '            </value>' +
 '        </block>' +
 '        <block type="lists_length"></block>' +
@@ -184,9 +199,9 @@ var full_toolbox =
 '            </value>' +
 '        </block>' +
 '    </category>' +
-'    <category name="Variables" custom="VARIABLE">' +
+'    <category name="Variables" colour="330" custom="VARIABLE">' +
 '    </category>' +
-'    <category name="Couleurs">' +
+'    <category name="Fonctions" colour="290" custom="PROCEDURE">' +
 '    </category>' +
 '</xml>';
 
@@ -207,11 +222,16 @@ function setupBlockly(onReady) {
                                        trashcan: true,
                                        zoom:
                                            {controls: true,
-                                               wheel: true,
-                                               startScale: 1.0,
-                                               maxScale: 3,
-                                               minScale: 0.3,
-                                               scaleSpeed: 1.2},
+                                            wheel: true,
+                                            startScale: 1.0,
+                                            maxScale: 3,
+                                            minScale: 0.3,
+                                            scaleSpeed: 1.2},
+                                       grid:
+                                            {spacing: 40,
+                                             length: 5,
+                                             colour: '#aaa',
+                                             snap: true},
                                    });
 
     workspace.addChangeListener(function() {
