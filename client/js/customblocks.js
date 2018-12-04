@@ -220,8 +220,8 @@ Blockly.Blocks['sphere'] = {
         this.appendDummyInput()
             .appendField("Sphere")
             .appendField(new Blockly.FieldDropdown([
-                [Blockly.Msg.FULL, "sphere"],
-                [Blockly.Msg.EMPTY, "sphere0"]
+                ["pleine", "sphere"],
+                ["vide", "sphere0"]
             ]), "FILL");
         this.appendValueInput("radius")
             .setCheck("Number")
