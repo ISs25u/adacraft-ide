@@ -36,7 +36,6 @@ Blockly.JavaScript['drone_chkpt'] = function (block) {
     return code;
 };
 
-
 Blockly.JavaScript['monoblock'] = function (block) {
     var material = Blockly.JavaScript.valueToCode(block,
                                                  'material',
@@ -60,20 +59,29 @@ Blockly.JavaScript['animals'] = function (block) {
 
 Blockly.JavaScript['rectangle'] = function (block) {
     
+    var code = "";
+    
     var value_width = Blockly.JavaScript.valueToCode(block, 'width', Blockly.JavaScript.ORDER_ATOMIC);
     var value_lenght = Blockly.JavaScript.valueToCode(block, 'lenght', Blockly.JavaScript.ORDER_ATOMIC);
     var value_height = Blockly.JavaScript.valueToCode(block, 'height', Blockly.JavaScript.ORDER_ATOMIC);
+    
     var material = Blockly.JavaScript.valueToCode(block,
                                                  'material',
                                                  Blockly.JavaScript.ORDER_ADDITION) || '1';
     var dropdown_fill = block.getFieldValue('FILL');
-    
-    var code = "theDrone." + dropdown_fill + "(" + material + "," + value_width + "," + value_height + "," + value_lenght + ");\n";
+
+    if(value_width * value_lenght * value_height > 50*50*50){
+        code = "echo(\"Structure trop grande pour être construite...\");\n";
+    } else {
+        code = "theDrone." + dropdown_fill + "(" + material + "," + value_width + "," + value_height + "," + value_lenght + ");\n";
+    }
     
     return code;
 };
 
 Blockly.JavaScript['cylinder'] = function (block) {
+    
+    var code=  "";
     
     var value_radius = Blockly.JavaScript.valueToCode(block, 'radius', Blockly.JavaScript.ORDER_ATOMIC);
     var value_height = Blockly.JavaScript.valueToCode(block, 'height', Blockly.JavaScript.ORDER_ATOMIC);
@@ -82,7 +90,30 @@ Blockly.JavaScript['cylinder'] = function (block) {
                                                  Blockly.JavaScript.ORDER_ADDITION) || '1';
     var dropdown_fill = block.getFieldValue('FILL');
     
-    var code = "theDrone." + dropdown_fill + "(" + material + "," + value_radius + "," + value_height + ");\n";
+    if(value_height*3.141592*value_radius*value_radius > 50*50*50){
+        code = "echo(\"Structure trop grande pour être construite...\");\n";
+    } else {
+        code = "theDrone." + dropdown_fill + "(" + material + "," + value_radius + "," + value_height + ");\n";
+    }
+    
+    return code;
+};
+
+Blockly.JavaScript['sphere'] = function (block) {
+    
+    var code=  "";
+    
+    var value_radius = Blockly.JavaScript.valueToCode(block, 'radius', Blockly.JavaScript.ORDER_ATOMIC);
+    var material = Blockly.JavaScript.valueToCode(block,
+                                                 'material',
+                                                 Blockly.JavaScript.ORDER_ADDITION) || '1';
+    var dropdown_fill = block.getFieldValue('FILL');
+    
+    if(4.0/3.0*3.141592*value_radius*value_radius*value_radius > 50*50*50){
+        code = "echo(\"Structure trop grande pour être construite...\");\n";
+    } else {
+        code = "theDrone." + dropdown_fill + "(" + material + "," + value_radius + ");\n";
+    }
     
     return code;
 };

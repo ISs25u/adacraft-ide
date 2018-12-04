@@ -58,11 +58,11 @@ Blockly.Blocks['drone'] = {
 Blockly.Blocks['drone_turn'] = {
     init: function () {
         this.appendDummyInput()
-            .appendField("Rotation à")
+            .appendField("Tourner à")
             .appendField(
             new Blockly.FieldDropdown([
-                ["Droite", "turn()"],
-                ["Gauche", "turn(3)"]
+                ["⟳", "turn()"],
+                ["⟲", "turn(3)"]
             ]), "direction");
         this.setInputsInline(true);
         this.setPreviousStatement(true);
@@ -214,6 +214,30 @@ Blockly.Blocks['cylinder'] = {
         this.setHelpUrl('https://github.com/walterhiggins/ScriptCraft/blob/master/docs/API-Reference.md#dronecylinder-method');
     }
 };
+
+Blockly.Blocks['sphere'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField("Sphere")
+            .appendField(new Blockly.FieldDropdown([
+                [Blockly.Msg.FULL, "sphere"],
+                [Blockly.Msg.EMPTY, "sphere0"]
+            ]), "FILL");
+        this.appendValueInput("radius")
+            .setCheck("Number")
+            .appendField("Rayon");
+        this.appendValueInput("material")
+            .setCheck("Block")
+            .appendField("Matériau");
+        this.setInputsInline(false);
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+        this.setColour(60);
+        this.setTooltip(Blockly.Msg.TOOLTIP_CIRCLE);
+        this.setHelpUrl('https://github.com/walterhiggins/ScriptCraft/blob/master/docs/API-Reference.md#dronecylinder-method');
+    }
+};
+
 
 Blockly.Blocks['objects'] = {
     init: function () {
