@@ -248,6 +248,7 @@ Blockly.Msg.OBJNAMES[152] = "Redstone";
 Blockly.Msg.OBJNAMES[153] = "Netherquartzore";
 Blockly.Msg.OBJNAMES[155] = "Quartz";
 Blockly.Msg.OBJNAMES[162] = "Bois acacia";
+Blockly.Msg.OBJNAMES[169] = "Lanterne aquatique";
 Blockly.Msg.OBJNAMES[172] = "Craie compacte";
 Blockly.Msg.OBJNAMES[173] = "Coal block";
 Blockly.Msg.OBJNAMES[174] = "Glace comptacte";
