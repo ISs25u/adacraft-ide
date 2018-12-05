@@ -1,4 +1,4 @@
-/************************************************************************
+﻿/************************************************************************
 ## Blockly-Minecraft blocks
 Lauro Canonica: Original author (Devoxx4kids Lugano 2015.04)
 
@@ -8,7 +8,16 @@ Contains the description of the Minecraft blocks for Blockly
 
 //Naturally generated and created material blocks http://minecraft.gamepedia.com/Block 
 //var materials = getObjNames(Blockly.Msg.OBJNAMES, [0, 1, 3, 4, 8, 10, 12, 13, 14, 15, 16, 17, 18, 20, 21, 24, 41, 49, 56, 65, 66, 73, 79, 80, 81, 82, 86, 103, 129, 152, 162, 172, 174]);
-var materials = getObjNames(Blockly.Msg.OBJNAMES, [0,17,162,81,86,82,172,8,65,18,79,174,13,10,103,16,56,129,15,21,14,73,80,49,41,4,24,1,66,152,12,3,20]);
+var materials = getObjNames(Blockly.Msg.OBJNAMES, [0,17,162,81,86,82,172,8,65,18,
+                                                   79,174,13,10,'35:0','35:8',
+                                                   '35:7','35:15','35:14','35:1',
+                                                   '35:4','35:5','35:13','35:9',
+                                                   '35:3','35:11','35:10','35:2',
+                                                   '35:6','35:12',103,16,56,129,
+                                                   15,21,14,73,80,49,41,4,24,1,
+                                                   66,152,12,3,20]);
+
+
 
 //Spawn passive and pameable animals http://minecraft.gamepedia.com/Mob
 var animals = getObjNames(Blockly.Msg.ANIMALS_NAMES, ['BAT', 'CHICKEN', 'COW', 'PIG', 'RABBIT', 'WOLF', 'SHEEP', 'HORSE', 'OCELOT']);
@@ -34,7 +43,7 @@ function getObjNames(list, ids) {
             if (typeof (ids[i]) == "number") {
                 id = "'" + ids[i] + "'";
             } else {
-                id = ids[i];
+                id = "'" + ids[i] + "'";
             }
             shortList[i] = [list[ids[i]], id];
         }

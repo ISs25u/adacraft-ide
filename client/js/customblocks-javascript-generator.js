@@ -1,4 +1,4 @@
-/************************************************************************
+﻿/************************************************************************
 ## Blockly -> ScriptCraft Javascript Code generator
 Lauro Canonica: Original author (Devoxx4kids Lugano 2015.04)
 

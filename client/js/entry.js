@@ -1,4 +1,4 @@
-var $ = require('jquery');
+﻿var $ = require('jquery');
 var textEditor = require('./editfile_ace.js');
 var Blockly = null;
 
