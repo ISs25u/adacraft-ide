@@ -2,13 +2,13 @@
 
 {% block content %}
     {% if logged_in_player %}
-        <p>You are logged in as <em>{{ logged_in_player }}</em>
-        (<a href="/logout">Log out</a>)</p>
+        <p>Connecté en tant que <b>{{ logged_in_player }}</b>
+        (<a href="/logout">Déconnexion</a>)</p>
     {% endif %}
-    <h1>Browse JavaScript files</h1>
+    <h1>Explorateur de codes</h1>
 
 {% if logged_in_player %}
-<p> You can edit the following files: </p> 
+<p> Vous pouvez éditer les fichiers suivants : </p> 
 <dl>
   <dt>{{playerDir}}</dt>
   <dd>
@@ -16,12 +16,12 @@
         {%- for path in ownedFiles|sort %}
           <li><a href="{{playerDir}}/{{path}}">{{path}}</a></li>
         {% endfor %}
-        <li><input type="text" placeholder="enter new file name" data-url="{{playerDir}}/"></input></li>
+        <li><input type="text" placeholder="nom du fichier" data-url="{{playerDir}}/"></input></li>
     </ul>
   </dd>
 </dl>
 {% endif %}
-<p> You can read the following files: </p> 
+<p> Vous pouvez lire les fichiers suivants :  </p> 
 <dl>
   {%- for directory, files in filesByDirectory|dictsort %} 
     <dt>{{directory}}</dt>

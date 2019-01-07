@@ -41,7 +41,7 @@ $('#editor').each(function () {
 
     if (!readOnly) {
       aceEditor.on('change', function(e) {
-        $("#status").text("(altered)");
+        $("#status").text("(modifié)");
       });
 
       $('#saveButton').click(function () {
@@ -52,7 +52,7 @@ $('#editor').each(function () {
           url: $editor.data('saveUrl'),
           data: { text : txt },
           success: function(data, txtStatus) {
-            $('#status').text("(saved)");
+            $('#status').text("(sauvegardé)");
           },
           complete: function() {
             button.disabled = false;

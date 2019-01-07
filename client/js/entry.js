@@ -229,7 +229,6 @@ function setupBlockly(onReady) {
     require('./customblocks-javascript-generator.js');
     require('./fr.js');
     
-
     workspace = Blockly.inject('blocklyDiv',
                                    {
                                        toolbox: full_toolbox,
@@ -269,6 +268,7 @@ function setupBlockly(onReady) {
       onReady();
     });
   });
+
 }
 
 function onTextChanged() {
