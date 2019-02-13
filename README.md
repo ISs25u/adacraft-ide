@@ -1,5 +1,13 @@
 # Installing and running
 
+## Dependencies
+
+```
+npm
+python
+pip
+```
+
 ## Installing npm modules
 
 ```
