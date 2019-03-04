@@ -10,10 +10,23 @@ USR = os.environ['FTP_USER']
 PWD = os.environ['FTP_PASS']
 HST = os.environ['FTP_HOST']
 
+session = None
+
 def getSession():
 
-    session = FTP(HST)
-    session.login(USR,PWD)
+    global session
+
+    if session is None :
+      print("Connecting FTP")
+
+      try :
+        session = FTP(HST)
+        session.login(USR,PWD)
+      except :
+         print("Error connecting FTP")
+
+#    session = FTP(HST)
+#    session.login(USR,PWD)
 
     return session
 
@@ -22,6 +35,10 @@ def list_files():
     print("FTP list files")
 
     ses = getSession()
+
+    if ses is None :
+      print("FTP ERROR")
+      return None
 
     content = []
     ses.retrlines('MLSD %s'%(WDIR),content.append)
@@ -57,7 +74,7 @@ def save_file(playername,filename,txt) :
     print("FTP save %s"%(path))
 
     try :
-        session.mkd(WDIR+playername)
+        getSession().mkd(WDIR+playername)
     except:
         print('FTP dir %s already exists'%(playername))
 
