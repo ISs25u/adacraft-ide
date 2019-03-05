@@ -43,7 +43,9 @@ def get_file_content(file_path):
     try:
 
         if FILEMODE == 'SSH' :
-	    return mftp.load_file(playername,filename)
+            mfile = mftp.load_file(playername,filename)
+	    return mfile
+
         else :
 	    with open("%s/%s"%(JSDIR,file_path),'r') as f :
                 return f.read()
@@ -148,7 +150,7 @@ def edit():
 def editfile(playername, filename):
     "edit the content of a file"
 
-    print("Editing %s/%s"%(playername,filename))
+    print("--- Editing %s/%s"%(playername,filename))
 
     fname = playername + '/' + filename
 
@@ -167,11 +169,13 @@ def editfile(playername, filename):
 def load(playername, filename):
     "get the content of a file"
 
-    print("Loading %s/%s"%(playername,filename))
+    print("--- Loading %s/%s"%(playername,filename))
 
     fname = playername + '/' + filename
-    response = make_response(get_file_content("%s"%fname))
-    response.headers['Content-Type'] = "text/javascript"
+    mfile = get_file_content("%s"%fname)
+
+    response = make_response(mfile.encode("utf8"))
+    response.headers['Content-Type'] = "text/plain"
     response.headers['Content-Disposition'] = "inline; filename=" + filename
     return response
 
@@ -180,7 +184,7 @@ def load(playername, filename):
 def save(playername, filename):
     "Handles save file"
 
-    print("Saving %s/%s"%(playername,filename))
+    print("--- Saving %s/%s"%(playername,filename))
 
     if logged_in_player() != playername:
         return "", 403

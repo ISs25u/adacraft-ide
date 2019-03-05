@@ -95,12 +95,12 @@ def load_file(playername,filename):
     data = [] 
 
     try:
-        getSession().retrbinary('RETR %s'%(path), data.append)
+        res = getSession().retrbinary('RETR %s'%(path), data.append)
     except:
         print("FTP ERROR LOADIND FILE %s"%path)
         data = [""]
 
-    txt = data[0]
+    txt = ''.join(data)
 
     return txt 
 
