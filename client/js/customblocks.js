@@ -270,3 +270,31 @@ Blockly.Blocks['objects'] = {
         this.setHelpUrl('https://github.com/walterhiggins/ScriptCraft/blob/master/docs/API-Reference.md#entities-module');
     }
 };
+
+Blockly.Blocks['mprocedure'] = {
+    init: function () {
+        this.appendStatementInput("statements")
+            .setCheck("")
+            .appendField("Module")
+            .appendField(new Blockly.FieldTextInput(""), "param");
+        this.setInputsInline(true);
+        this.setColour("#af7358");
+        this.setTooltip(Blockly.Msg.TOOLTIP_DRONE);
+        this.setHelpUrl('https://github.com/walterhiggins/ScriptCraft/blob/master/docs/API-Reference.md#drone-plugin');
+    }
+};
+
+Blockly.Blocks['mprocedure_call'] = {
+    init: function () {
+        this.appendDummyInput()
+        this.appendDummyInput()
+            .appendField(new Blockly.FieldTextInput(""), "where");
+        this.setInputsInline(true);
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+        this.setColour("#af7358");
+        this.setTooltip(Blockly.Msg.TOOLTIP_DRONEMOVE);
+        this.setHelpUrl('https://github.com/walterhiggins/ScriptCraft/blob/master/docs/API-Reference.md#drone-movement');
+    }
+};
+

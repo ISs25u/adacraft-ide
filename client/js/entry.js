@@ -18,6 +18,10 @@ var full_toolbox =
 '        <block type="drone_turn"></block>' +
 '        <block type="drone_chkpt"></block>' +
 '    </category>' +
+'    <category name="Modules" colour="20">' +
+'        <block type="mprocedure"></block>' +
+'        <block type="mprocedure_call"></block>' +
+'    </category>' +
 '    <category name="Construction" colour="60">' +
 '        <block type="block"></block>' +
 '        <block type="monoblock">' +
@@ -80,7 +84,6 @@ var full_toolbox =
 '            </shadow>' +
 '          </value>' +
 '        </block>' +
-
 '    </category>' +
 '    <sep></sep>' +
 '    <category name="Logique" colour="210">' +
@@ -213,8 +216,6 @@ var full_toolbox =
 '        </block>' +
 '    </category>' +
 '    <category name="Variables" colour="330" custom="VARIABLE">' +
-'    </category>' +
-'    <category name="Fonctions" colour="290" custom="PROCEDURE">' +
 '    </category>' +
 '</xml>';
 

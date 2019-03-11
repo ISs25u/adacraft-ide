@@ -79,7 +79,7 @@ def save_file(playername,filename,txt) :
         print('FTP dir %s already exists'%(playername))
 
     try:
-        with open('tempfile', 'wb') as f : f.write(txt)
+        with open('tempfile', 'wb') as f : f.write(txt.encode('utf8'))
         getSession().storbinary('STOR %s'%(path), open('tempfile','rb'))
     except:
         print("FTP: ERROR SAVING FILE %s"%path)
@@ -100,9 +100,6 @@ def load_file(playername,filename):
         print("FTP ERROR LOADIND FILE %s"%path)
         data = [""]
 
-    txt = ''.join(data)
+    txt = ''.join(data).encode('utf8')
 
     return txt 
-
-
-

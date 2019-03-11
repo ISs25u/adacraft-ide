@@ -44,6 +44,7 @@ def get_file_content(file_path):
 
         if FILEMODE == 'SSH' :
             mfile = mftp.load_file(playername,filename)
+            print(mfile)
 	    return mfile
 
         else :
