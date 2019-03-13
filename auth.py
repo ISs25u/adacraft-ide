@@ -2,14 +2,11 @@ import jwt
 
 ALGORITHM = 'HS256'
 
-
 def verifyToken(token, secret):
     return jwt.decode(token, secret, algorithm=ALGORITHM)
 
-
 def createToken(data, secret):
     return jwt.encode(data, secret, algorithm=ALGORITHM)
-
 
 if __name__ == "__main__":
     import sys

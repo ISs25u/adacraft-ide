@@ -18,7 +18,7 @@ var full_toolbox =
 '        <block type="drone_turn"></block>' +
 '        <block type="drone_chkpt"></block>' +
 '    </category>' +
-'    <category name="Modules" colour="20">' +
+'    <category name="Modules" colour="40">' +
 '        <block type="mprocedure"></block>' +
 '        <block type="mprocedure_call"></block>' +
 '    </category>' +
@@ -264,7 +264,7 @@ function setupBlockly(onReady) {
       textEditor.setContent(code);
     });
 
-    $.getScript('/ide-ext/index.js').always(function() {
+     $.getScript('/ide-ext/index.js').always(function() {
       onTextChanged();
       onReady();
     });

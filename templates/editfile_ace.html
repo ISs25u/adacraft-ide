@@ -36,15 +36,15 @@
   </head>
 <body>
 <div id="header">
-<b>Edition de {{fname}}</b>
-<span id="status">
-{% if not can_save %} (non propriétaire) {% else %} (sauvegardé) {% endif %}
-</span>
-- <a href="/edit/">back</a>
+<b>Edition de <span style="color: #1166FF;">{{fname}}</span></b>
+
+<span id="status" style="background: black; color:white; font-weight:bold; border: 2px solid black;"> {% if not can_save %}(non propriétaire){% else %}(sauvegardé){% endif %}</span>
+
+- <a href="/edit/">Revenir aux fichiers</a>
 </div>
 <div id="toolbar">
   <input type='button' {% if not can_save %} disabled {% endif %} id="saveButton" value='Sauvegarder'/>
-  <input type='button' id="cleanButton" value='Nettoyer'/>
+  <input style="display:none;" type='button' id="cleanButton" value='Nettoyer'/>
   <input type='button' id="toggleBlocksButton" value='Activer/Désactiver Blockly'/>
 </div>
 <div id="editors">

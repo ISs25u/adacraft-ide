@@ -19,7 +19,6 @@ import glob
 import os
 import signal
 import mftp
-from git import Actor, Repo
 
 from flask import Flask, make_response, request, session, render_template, flash, redirect, url_for, send_from_directory
 
@@ -29,14 +28,8 @@ DEBUG = 'DEBUG' in os.environ
 SECRET = os.environ['SECRET']
 FILEMODE = os.environ['MODE']
 HOST = os.environ['LOC_HOST']
-#EXTDIR = os.environ['EXTDIR']
-
-repo = None
-
 
 def get_file_content(file_path):
-
-    print("Will get content of %s"%file_path)
 
     playername, filename = file_path.split('/')
 
@@ -44,7 +37,6 @@ def get_file_content(file_path):
 
         if FILEMODE == 'SSH' :
             mfile = mftp.load_file(playername,filename)
-            print(mfile)
 	    return mfile
 
         else :
@@ -57,14 +49,7 @@ def get_file_content(file_path):
 
 def set_file_content(file_path, txt):
 
-    print("Will set content of %s"%file_path)
-
     playername, filename = file_path.split('/')
-
-    #if not os.path.isdir(os.path.dirname(file_path)):
-    #    os.makedirs(os.path.dirname(file_path))
-    #with io.open(file_path, "wt", encoding=ENCODING) as f:
-    #    f.write(unicode(txt))
 
     if FILEMODE == 'SSH' :
         mftp.save_file(playername, filename, txt)
@@ -82,9 +67,11 @@ def logged_in_player():
     else:
         return None
 
+
+# ---------------------
+
 app = Flask(__name__)
 app.secret_key = SECRET
-
 
 @app.route('/')
 def index():
@@ -122,7 +109,6 @@ def edit():
         fnames = mftp.list_files()
     else :
         directories = glob.glob("%s/*/"%(JSDIR))
-        print("DIRS: %s"%directories)
         fnames = {}
         for directory in directories:
             files = glob.glob("%s*.js"%directory)
@@ -151,8 +137,6 @@ def edit():
 def editfile(playername, filename):
     "edit the content of a file"
 
-    print("--- Editing %s/%s"%(playername,filename))
-
     fname = playername + '/' + filename
 
     app.logger.debug(url_for("load", playername=playername, filename=filename))
@@ -170,8 +154,6 @@ def editfile(playername, filename):
 def load(playername, filename):
     "get the content of a file"
 
-    print("--- Loading %s/%s"%(playername,filename))
-
     fname = playername + '/' + filename
     mfile = get_file_content("%s"%fname)
 
@@ -184,8 +166,6 @@ def load(playername, filename):
 @app.route('/save/<playername>/<filename>', methods=['GET', 'POST'])
 def save(playername, filename):
     "Handles save file"
-
-    print("--- Saving %s/%s"%(playername,filename))
 
     if logged_in_player() != playername:
         return "", 403
@@ -201,30 +181,11 @@ def save(playername, filename):
     return ""
 
 
-#if EXTDIR is not None:
-#    @app.route('/ide-ext/<path:path>')
-#    def send_ext(path):
-#        return send_from_directory(EXTDIR, path)
-
-
 def term_handler(signum, frame):
     app.logger.info("Caught TERM signal, shutting down.")
     exit(0)
 
 
-def init_repo():
-    global repo
-    if os.path.isdir("%s/.git" % JSDIR):
-        repo = Repo(JSDIR)
-    else:
-        repo = Repo.init(JSDIR)
-        repo.index.add(repo.untracked_files)
-        repo.index.commit('initial commit')
-        app.logger.info("Git repo initialized")
-
 if __name__ == "__main__":
-    #init_repo()
     signal.signal(signal.SIGTERM, term_handler)
     app.run(host=HOST, debug=DEBUG)
-
-

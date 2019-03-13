@@ -7,28 +7,63 @@
     {% endif %}
     <h1>Explorateur de codes</h1>
 
+<style>
+.mlink {
+	background-color: #1166FF;
+	color: white;
+	border-radius: 2px;
+	padding: 4px;
+	font-weight: bold;
+}
+.mlink:hover {
+	background-color: white;
+	color: #1166FF;
+	border-radius: 2px;
+	border: 2px solid #1166FF;
+	padding: 4px;
+	font-weight: bold;
+	text-decoration: none;
+}
+.molink {
+	background-color: #444455;
+	color: white;
+	border-radius: 2px;
+	padding: 4px;
+	font-weight: bold;
+}
+.molink:hover {
+	background-color: white;
+	color: #444455;
+	border-radius: 2px;
+	border: 2px solid #444455;
+	padding: 4px;
+	font-weight: bold;
+	text-decoration: none;
+}
+</style>
+
 {% if logged_in_player %}
-<p> Vous pouvez éditer les fichiers suivants : </p> 
+<p><span style="border-bottom: 5px solid #1166FF;"> Vous pouvez éditer les fichiers suivants :</span></p> 
 <dl>
   <dt>{{playerDir}}</dt>
   <dd>
     <ul>
         {%- for path in ownedFiles|sort %}
-          <li><a href="{{playerDir}}/{{path}}">{{path}}</a></li>
+          <li style="margin-bottom:7px;"><a class="mlink" href="{{playerDir}}/{{path}}">{{path}}</a></li>
         {% endfor %}
         <li><input type="text" placeholder="nom du fichier" data-url="{{playerDir}}/"></input></li>
     </ul>
   </dd>
 </dl>
 {% endif %}
-<p> Vous pouvez lire les fichiers suivants :  </p> 
+<p><span style="border-bottom: 5px solid #444455;">Vous pouvez lire les fichiers suivants :</span></p> 
 <dl>
   {%- for directory, files in filesByDirectory|dictsort %} 
     <dt>{{directory}}</dt>
     <dd>
       <ul>
         {%- for path in files|sort %}
-          <li><a href="{{directory}}/{{path}}">{{path}}</a></li>
+          <li><a class="molink" href="{{directory}}/{{path}}">{{path}}</a></li>
         {%endfor %}
       </ul>
     </dd>

@@ -17,31 +17,33 @@ def getSession():
     global session
 
     if session is None :
-      print("Connecting FTP")
+      print("\tFTP Connect")
 
       try :
         session = FTP(HST)
         session.login(USR,PWD)
       except :
-         print("Error connecting FTP")
-
-#    session = FTP(HST)
-#    session.login(USR,PWD)
+         print("\tError connecting FTP")
 
     return session
 
 def list_files():
 
-    print("FTP list files")
+    print("\tFTP list files")
 
     ses = getSession()
 
     if ses is None :
-      print("FTP ERROR")
-      return None
+      return {}
 
     content = []
-    ses.retrlines('MLSD %s'%(WDIR),content.append)
+
+    try :
+        ses.retrlines('MLSD %s'%(WDIR),content.append)
+    except :
+        print("\tError loading directories")
+        return {}
+
     description = []
 
     for l in content :
@@ -60,29 +62,39 @@ def list_files():
     all_files = {}
     for d in directories :
         l_files = []
-        ses.retrlines('NLST %s%s/'%(WDIR,d), l_files.append)
+
+        try :
+            ses.retrlines('NLST %s%s/'%(WDIR,d), l_files.append)
+        except :
+            print("\tError loading directory")
+
         if len(l_files) > 0 :
             
             all_files[d] = [re.findall('.*?(\w+\.js)$',f)[0] for f in l_files if len(re.findall('.*?(\w+\.js)$',f)) > 0]
-    
+   
     return all_files
 
 def save_file(playername,filename,txt) :
 
     path = "%s%s/%s"%(WDIR,playername,filename)
 
-    print("FTP save %s"%(path))
+    print("\tFTP save %s"%(path))
+
+    ses = getSession()
+
+    if ses is None :
+        return
 
     try :
-        getSession().mkd(WDIR+playername)
+        ses.mkd(WDIR+playername)
     except:
-        print('FTP dir %s already exists'%(playername))
+        print('\tFTP dir %s already exists'%(playername))
 
     try:
         with open('tempfile', 'wb') as f : f.write(txt.encode('utf8'))
-        getSession().storbinary('STOR %s'%(path), open('tempfile','rb'))
+        ses.storbinary('STOR %s'%(path), open('tempfile','rb'))
     except:
-        print("FTP: ERROR SAVING FILE %s"%path)
+        print("\tFTP: ERROR SAVING FILE %s"%path)
 
     return
 
@@ -90,14 +102,19 @@ def load_file(playername,filename):
 
     path = "%s%s/%s"%(WDIR,playername,filename)
 
-    print("FTP load %s"%(path))
+    print("\tFTP load %s"%(path))
+
+    ses = getSession()
+
+    if ses is None :
+        return ""
 
     data = [] 
 
     try:
-        res = getSession().retrbinary('RETR %s'%(path), data.append)
+        res = ses.retrbinary('RETR %s'%(path), data.append)
     except:
-        print("FTP ERROR LOADIND FILE %s"%path)
+        print("\tFTP ERROR LOADIND FILE %s"%path)
         data = [""]
 
     txt = ''.join(data).encode('utf8')
