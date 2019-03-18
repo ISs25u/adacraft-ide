@@ -8,6 +8,7 @@
     <h1>Explorateur de codes</h1>
 
 <style>
+
 .mlink {
 	background-color: #1166FF;
 	color: white;
@@ -15,6 +16,7 @@
 	padding: 4px;
 	font-weight: bold;
 }
+
 .mlink:hover {
 	background-color: white;
 	color: #1166FF;
@@ -24,6 +26,7 @@
 	font-weight: bold;
 	text-decoration: none;
 }
+
 .molink {
 	background-color: #444455;
 	color: white;
@@ -31,6 +34,7 @@
 	padding: 4px;
 	font-weight: bold;
 }
+
 .molink:hover {
 	background-color: white;
 	color: #444455;
@@ -40,6 +44,11 @@
 	font-weight: bold;
 	text-decoration: none;
 }
+
+li {
+	margin: 4px 0px 8px 0px;
+}
+
 </style>
 
 {% if logged_in_player %}
@@ -49,7 +58,7 @@
   <dd>
     <ul>
         {%- for path in ownedFiles|sort %}
-          <li style="margin-bottom:7px;"><a class="mlink" href="{{playerDir}}/{{path}}">{{path}}</a></li>
+          <li><a class="mlink" href="{{playerDir}}/{{path}}">{{path}}</a></li>
         {% endfor %}
         <li><input type="text" placeholder="nom du fichier" data-url="{{playerDir}}/"></input></li>
     </ul>
