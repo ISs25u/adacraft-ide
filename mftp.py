@@ -119,6 +119,4 @@ def load_file(playername,filename):
 
     txt = ''.join(data).encode('utf8')
 
-    print("FILE: " + txt)
-
     return txt 
