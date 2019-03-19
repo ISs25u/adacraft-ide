@@ -36,8 +36,7 @@ def get_file_content(file_path):
     try:
 
         if FILEMODE == 'SSH' :
-            mfile = mftp.load_file(playername,filename)
-	    return mfile
+            return mftp.load_file(playername,filename)
 
         else :
 	    with open("%s/%s"%(JSDIR,file_path),'r') as f :
@@ -60,13 +59,11 @@ def set_file_content(file_path, txt):
         with open("%s/%s"%(JSDIR,file_path), 'w') as f :
             f.write(txt)
 
-
 def logged_in_player():
     if 'player' in session:
         return session['player']
     else:
         return None
-
 
 # ---------------------
 
