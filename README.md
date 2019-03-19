@@ -20,6 +20,12 @@ npm install
 sudo npm run build
 ```
 
+or in watch mode :
+
+```
+sudo npm run build -- -w
+```
+
 ## Installing python requirements
 
 ```
