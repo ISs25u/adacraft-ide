@@ -139,7 +139,9 @@ def editfile(playername, filename):
 
     fname = playername + '/' + filename
 
+    app.logger.debug("C'est un test")
     app.logger.debug(url_for("load", playername=playername, filename=filename))
+
     return render_template(
         'editfile_ace.html',
         fname=fname,
