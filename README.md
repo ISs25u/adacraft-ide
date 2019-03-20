@@ -3,18 +3,26 @@
 ## Dependencies
 
 ```
+nodejs
 npm
 python
 pip
+yarn
 ```
 
-## Installing npm modules
+## Install python requirements
+
+```
+pip install -r requirements.txt --user
+```
+
+## Install npm modules
 
 ```
 npm install
 ```
 
-## Generating the client bundle
+## Generate the client bundle
 
 ```
 sudo npm run build
@@ -24,12 +32,6 @@ or in watch mode :
 
 ```
 sudo npm run build -- -w
-```
-
-## Installing python requirements
-
-```
-pip install -r requirements.txt
 ```
 
 ## Start the server
