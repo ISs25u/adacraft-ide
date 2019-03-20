@@ -11,13 +11,19 @@ pip
 ## Installing npm modules
 
 ```
-$ npm install
+npm install
 ```
 
 ## Generating the client bundle
 
 ```
-$ npm run build
+sudo npm run build
+```
+
+or in watch mode :
+
+```
+sudo npm run build -- -w
 ```
 
 ## Installing python requirements
@@ -31,7 +37,7 @@ pip install -r requirements.txt
 ```
 MODE="[SSH|LOCAL]" \
 SECRET="secret" \
-LOC_HOST="x.x.x.x" \
+LOC_HOST="127.0.0.10" \
 LOC_WDIR="/path/to/local/javascript/folder" \
 FTP_WDIR="/path/to/distant/javascript/folder" \
 FTP_USER="ftp_username" \
@@ -48,8 +54,8 @@ python auth.py secret username
 
 this command generates a token. You can now connect to the server with the token :
 
-[http://x.x.x.x:5000/auth/\<token\>](http://x.x.x.x:5000/auth/\<token\>)
+[http://127.0.0.10:5000/auth/\<token\>](http://127.0.0.10:5000/auth/\<token\>)
     
 ## Access your server
 
-[http://x.x.x.x:5000/edit/](http://x.x.x.x:5000/edit/)
+[http://127.0.0.10:5000/edit/](http://127.0.0.10:5000/edit/)
