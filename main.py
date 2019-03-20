@@ -130,13 +130,20 @@ def edit():
     )
 
 
+@app.route("/schematic/")
+def loadSchem():
+    
+    schemFiles = ["schem1.schematic","schem2.schematic","schem3.schematic"]
+
+    return render_template('schematic.html', schemFiles=schemFiles, logged_in_player=logged_in_player())
+
+
 @app.route("/edit/<playername>/<filename>")
 def editfile(playername, filename):
     "edit the content of a file"
 
     fname = playername + '/' + filename
 
-    app.logger.debug("C'est un test")
     app.logger.debug(url_for("load", playername=playername, filename=filename))
 
     return render_template(
