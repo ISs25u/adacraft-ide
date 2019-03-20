@@ -1,9 +1,9 @@
 {
-  "name": "gnancraft-ide",
+  "name": "adacraft-ide",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:ut7/gnancraft-ide.git",
-  "author": "Jonathan Perret <jonathan@ut7.fr>",
+  "repository": "git@github.com:ISs25u/adacraft-ide.git",
+  "author": "Baptiste <baptiste@lesbricodeurs.fr>",
   "license": "MIT",
   "scripts": {
     "build": "webpack"

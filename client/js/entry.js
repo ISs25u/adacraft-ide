@@ -264,10 +264,9 @@ function setupBlockly(onReady) {
       textEditor.setContent(code);
     });
 
-     $.getScript('/ide-ext/index.js').always(function() {
-      onTextChanged();
-      onReady();
-    });
+    onTextChanged();
+    onReady();
+
   });
 
 }
