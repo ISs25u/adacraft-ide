@@ -16,14 +16,15 @@ def getSession():
 
     global session
 
-    if session is None :
-      print("\tFTP Connect")
 
-      try :
-        session = FTP(HST)
-        session.login(USR,PWD)
-      except :
-         print("\tError connecting FTP")
+#   if session is None :
+#     print("\tFTP Connect")
+
+    try :
+      session = FTP(HST)
+      session.login(USR,PWD)
+    except :
+       print("\tError connecting FTP")
 
     return session
 
