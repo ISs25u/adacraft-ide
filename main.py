@@ -131,12 +131,20 @@ def edit():
 
 
 @app.route("/schematic/")
-def loadSchem():
+def editSchem():
     
     schemFiles = ["schem1.schematic","schem2.schematic","schem3.schematic"]
 
     return render_template('schematic.html', schemFiles=schemFiles, logged_in_player=logged_in_player())
 
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+       #f = request.files['the_file']
+       #f.save('/var/www/uploads/uploaded_file.txt')
+       print(request)
+
+    return "<span>ACAB</span>"
 
 @app.route("/edit/<playername>/<filename>")
 def editfile(playername, filename):

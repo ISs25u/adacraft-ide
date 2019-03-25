@@ -27,10 +27,11 @@ ul li {
 
 <p><span style="border-bottom: 5px solid #001122;"> Envoyer un fichier :</span></p> 
 
-<form>
-    <p><input type="file" id="schemLoader" name="schemLoader" accept=".schematic"><span id="fileSize"></span></p>
+<form enctype="multipart/form-data" method="post" action="/upload">
+    <p><input type="file" id="schemLoader" name="schemLoader" accept=".schematic">
+    Taille : <span id="fileSize"></span></p>
 
-    <button id="sendSchemFile">Envoyer !</button>
+    <button type="submit" id="sendSchemFile">Envoyer !</button>
 </form> 
 
 {% endif %}
@@ -49,35 +50,6 @@ document.getElementById("schemLoader").onchange = function(event){
   fsize.innerHTML = schemSize.toFixed(1) + " KiB";
 
 };
-
-
-document.getElementById("sendSchemFile").onclick = function(event){
- 
-  input = document.getElementById("schemLoader");
-  fSize = document.getElementById("fileSize");
-  schemFile = input.files[0];
-  schemSize = schemFile.size;
-
-
-  console.log(input.src);
-
-};
-
-function FileUpload(file) {
-  var reader = new FileReader();  
-  var xhr = new XMLHttpRequest();
-  this.xhr = xhr;
-  
-  var self = this;
-  
-  xhr.open("POST", "http://demos.hacks.mozilla.org/paul/demos/resources/webservices/devnull.php");
-  xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
-
-  reader.onload = function(evt) {
-    xhr.sendAsBinary(evt.target.result);
-  };
-  reader.readAsBinaryString(file);
-}
 
 </script>
 
