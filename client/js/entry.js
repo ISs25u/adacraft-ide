@@ -225,10 +225,10 @@ function setupBlockly(onReady) {
   require.ensure(['./blockly'], function() {
     Blockly = require('./blockly');
 
-    require('./customblocks.js');
-    require('./customblocks-javascript-generator.js');
     require('./fr_custom.js');
     require('./fr.js');
+    require('./customblocks.js');
+    require('./customblocks-javascript-generator.js');
     
     workspace = Blockly.inject('blocklyDiv',
                                    {
