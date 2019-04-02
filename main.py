@@ -53,7 +53,7 @@ app.config['MAX_CONTENT_LENGTH'] = 128 * 1024       # Max file size is 128 KiB
 
 @app.route('/')
 def index():
-    return redirect(url_for('edit'))
+    return redirect(url_for('code'))
 
 
 @app.route('/auth/<token>')
@@ -68,7 +68,7 @@ def auth(token):
     app.logger.error("Auth error: %s" % str(e))
     flash('Invalid token')
 
-  return redirect(url_for('edit'))
+  return redirect(url_for('code'))
 
 
 @app.route('/logout')
@@ -76,11 +76,11 @@ def logout():
   if 'player' in session:
     session.pop('player', None)
     flash('Logged out')
-  return redirect(url_for('edit'))
+  return redirect(url_for('code'))
 
 
-@app.route("/edit/")
-def edit():
+@app.route("/code/")
+def code():
   "lists files we might want to edit"
 
   fnames = mftp.list_files()
@@ -111,7 +111,7 @@ def schematic():
   return render_template('schematic.html', schemFiles=schemFiles, logged_in_player=logged_in_player())
 
 
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/schematic/upload', methods=['GET', 'POST'])
 def upload_schematic():
 
   if request.method == 'POST':
@@ -131,7 +131,9 @@ def upload_schematic():
     cur_files = mftp.list_schematics()
     filename = secure_filename(mfile.filename)
 
-    if filename not in cur_files:
+    allowed_file = filename.split('.')[1].lower() == 'schematic'
+
+    if filename not in cur_files and allowed_file:
 
       flash('Le ficher \''+ filename + '\' a été transféré', category='info') 
       mpath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -140,30 +142,30 @@ def upload_schematic():
 
     else :
 
-      flash('Le ficher \''+ filename + '\' existe déjà...', category='error') 
+      flash('Impossible de tranférer le ficher \''+ filename + '\'', category='error') 
       return redirect(url_for('schematic'))
 
 
-@app.route("/edit/<playername>/<filename>")
-def editfile(playername, filename):
+@app.route("/code/<playername>/<filename>")
+def editcode(playername, filename):
   "edit the content of a file"
 
   fname = playername + '/' + filename
 
-  app.logger.debug(url_for("load", playername=playername, filename=filename))
+  app.logger.debug(url_for("download_code", playername=playername, filename=filename))
 
   return render_template(
     'editfile_ace.html',
     fname=fname,
     logged_in_player=logged_in_player(),
     can_save=logged_in_player() == playername,
-    save_url=url_for("save", playername=playername, filename=filename),
-    file_url=url_for("load", playername=playername, filename=filename),
+    save_url=url_for("upload_code", playername=playername, filename=filename),
+    file_url=url_for("download_code", playername=playername, filename=filename),
   )
 
 
 @app.route("/load/<playername>/<filename>")
-def load(playername, filename):
+def download_code(playername, filename):
   "get the content of a file"
 
   fname = playername + '/' + filename
@@ -176,7 +178,7 @@ def load(playername, filename):
 
 
 @app.route('/save/<playername>/<filename>', methods=['GET', 'POST'])
-def save(playername, filename):
+def upload_code(playername, filename):
   "Handles save file"
 
   if logged_in_player() != playername:

@@ -19,6 +19,8 @@
 	-ms-flex: 1;
         position: relative;
         display: flex;
+	margin: 15px 15px 15px 15px;
+	box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.5);
       }
       #editor {
         flex: 1;
@@ -27,20 +29,23 @@
         position: absolute;
         z-index: 1000;
         visibility: hidden;
+	border: 0px solid white;
       }
       #header, #toolbar {
         flex: 0;
         padding: 5px;
       }
     </style>
+
   </head>
 <body>
+
 <div id="header">
 <b>Edition de <span style="color: #1166FF;">{{fname}}</span></b>
 
 <span id="status" style="background: black; color:white; font-weight:bold; border: 2px solid black;"> {% if not can_save %}(non propriétaire){% else %}(sauvegardé){% endif %}</span>
 
-- <a href="/edit/">Revenir aux fichiers</a>
+- <a href="/code/">Revenir aux fichiers</a>
 </div>
 <div id="toolbar">
   <input type='button' {% if not can_save %} disabled {% endif %} id="saveButton" value='Sauvegarder'/>

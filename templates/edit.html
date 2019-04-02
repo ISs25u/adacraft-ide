@@ -7,87 +7,52 @@
     {% endif %}
     <h1>Explorateur de codes</h1>
 
-<style>
-
-.mlink {
-	background-color: #1166FF;
-	color: white;
-	border-radius: 2px;
-	padding: 4px;
-	font-weight: bold;
-}
-
-.mlink:hover {
-	background-color: white;
-	color: #1166FF;
-	border-radius: 2px;
-	border: 2px solid #1166FF;
-	padding: 4px;
-	font-weight: bold;
-	text-decoration: none;
-}
-
-.molink {
-	background-color: #444455;
-	color: white;
-	border-radius: 2px;
-	padding: 4px;
-	font-weight: bold;
-}
-
-.molink:hover {
-	background-color: white;
-	color: #444455;
-	border-radius: 2px;
-	border: 2px solid #444455;
-	padding: 4px;
-	font-weight: bold;
-	text-decoration: none;
-}
-
-li {
-	margin: 4px 0px 8px 0px;
-}
-
-</style>
-
 {% if logged_in_player %}
-<p><span style="border-bottom: 5px solid #1166FF;"> Vous pouvez éditer les fichiers suivants :</span></p> 
+<div class="msection">
+<h1>Programmes éditables</h1>
+
 <dl>
   <dt>{{playerDir}}</dt>
   <dd>
     <ul>
         {%- for path in ownedFiles|sort %}
-          <li><a class="mlink" href="{{playerDir}}/{{path}}">{{path}}</a></li>
+          <li><a href="{{playerDir}}/{{path}}">{{path}}</a></li>
         {% endfor %}
-        <li><input type="text" placeholder="nom du fichier" data-url="{{playerDir}}/"></input></li>
+        <li><input type="text" placeholder="nouveau fichier" data-url="{{playerDir}}/"></input></li>
     </ul>
   </dd>
 </dl>
+
+</div>
 {% endif %}
-<p><span style="border-bottom: 5px solid #444455;">Vous pouvez lire les fichiers suivants :</span></p> 
+
+<div class="msection">
+<h1>Programmes des autres joueurs</h1>
 <dl>
   {%- for directory, files in filesByDirectory|dictsort %} 
     <dt>{{directory}}</dt>
     <dd>
       <ul>
         {%- for path in files|sort %}
-          <li><a class="molink" href="{{directory}}/{{path}}">{{path}}</a></li>
+          <li><a href="{{directory}}/{{path}}">{{path}}</a></li>
         {%endfor %}
       </ul>
     </dd>
   {%endfor %}
 </dl> 
+</div>
 
 <script type="text/javascript">
-  document.onkeyup = function(event) {
-    if (event.keyCode != 13) return;
+ 
+ document.onkeyup = function(event) {
+
+  if (event.keyCode != 13) return;
     var filename = event.target.value;
     function endsWith(str, suffix) {
         return str.indexOf(suffix, str.length - suffix.length) !== -1;
-    }
+   }
     if (! /^[-_A-Za-z0-9.]+$/.test(filename)) {
-      alert("Invalid filename! Please use only non-accented letters and digits.");
+      alert("Nom de fichier invalide ! Il ne faut pas d'espaces ni de caractères accentués.");
       return;
     }
     if (! endsWith(filename,".js")) {
@@ -95,5 +60,15 @@ li {
     }
     window.location = event.target.dataset.url + filename;
   }
+
+  var li_input = document.querySelector("ul > li > input").parentNode;
+
+  li_input.style.borderColor = "teal";
+  li_input.style.padding = "0";
+  li_input.style.boxShadow = "none";
+
 </script>
+
+
+
 {% endblock %}

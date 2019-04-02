@@ -2,104 +2,7 @@
 
 {% block content %}
 
-<style>
-
-ul {
- list-style-type: none;
- padding: 0;
- margin: 0;
-}
-
-ul li {
- font-weight: bold;
-}
-
-input {
- width: 0.01px;
- height: 0.01px;
- opacity: 0;
- overflow: hidden;
- position: absolute;
- z-index: -1;
-}
-
-form label{
- color: black;
- background: white;
- border: 1px solid black;
- min-height: 2em;
-}
-
-form button{
- background: black;
- color: white;
- border: none;
- min-height: 2em;
- vertical-align: middle;
- padding: 0;
-}
-
-form button[disabled]{
- background: black;
- color: white;
- border: none;
- min-height: 2em;
- vertical-align: middle;
- padding: 0;
- cursor: not-allowed;
-}
-
-form label span{
- padding: 1em;
-}
-
-@keyframes svghover {
-  0%   {padding: 2px;}
-  100% {padding: 4px;}
-}
-
-svg{
- margin: 3px;
- padding: 2px;
- vertical-align: bottom;
- text-align: middle;
-}
-
-svg:hover{
- margin: 3px;
- padding: 2px;
- vertical-align: bottom;
- text-align: middle;
- animation-name: svghover;
- animation-duration: 0.5s;
- animation-iteration-count: infinite;
- animation-direction: alternate;
-}
-
-.msection {
-
- border: 6px solid black;
- padding: 6px;
- margin: 6px 0px 0px 0px;
-
-}
-
-.msection > h1 {
- display: inline-block;
- position: relative;
- top: -6px;
- left: -6px;
- margin: 0px;
- padding: 6px;
- background: black;
- color: white;
- font-size: large;
- font-weight: bold;
-
-}
-
-</style>
-
+<h1>Exportation de modèles 3D vers Minecraft</h1>
 
 <div class="msection">
 
@@ -111,6 +14,8 @@ svg:hover{
 {% endfor %}
 </ul>
 
+ <div id="mine_cmd"><b>Commande Minecraft :  </b><span id="mine_command">//schem load mcedit </span><span id="mine_file">&lt;filename&gt;</span></div>
+
 </div>
 
 {% if logged_in_player %}
@@ -119,22 +24,21 @@ svg:hover{
 
 <h1>Envoyer un fichier</h1> 
 
-<form enctype="multipart/form-data" method="post" action="{{ url_for('upload_schematic') }}">
+<form class="form_schem" enctype="multipart/form-data" method="post" action="{{ url_for('upload_schematic') }}">
     <input type="file" id="schemLoader" name="schemLoader" accept=".schematic">
     <label for="schemLoader">
     	<span id="spanFile">Choisir un fichier</span>
-    	<button type="submit" id="sendSchemFile" disabled='true'><svg xmlns="http://www.w3.org/2000/svg" width="31" height="28" viewBox="0 0 30.8 28"><style>.a{fill:#fff}</style><g transform="matrix(0.24840608 0 0 0.24777994 0.37642834 0.3754795)" stroke-width="4"><path d="m118.5 86c-1.3-0.9-3-1.4-4.9-1.4H82.8 38.2 7.4c-1.9 0-3.6 0.5-4.9 1.4C1.2 86.9 0.5 88 0.5 89.3v15.6c0 1.3 0.7 2.4 2 3.3 1.3 0.9 3 1.4 4.9 1.4h106.2c1.9 0 3.6-0.5 4.9-1.4 1.3-0.9 2-2 2-3.3V89.3c0-1.3-0.7-2.4-2-3.3z" class="a"/><path d="m28.2 42h18.5v32.3c0 1.2 0.5 2.3 1.4 3.2 0.9 0.9 2 1.4 3.2 1.4h18.5c1.2 0 2.3-0.5 3.2-1.4 0.9-0.9 1.4-2 1.4-3.2V42h18.5c2 0 3.4-1 4.3-2.9 0.8-1.9 0.5-3.5-1-5L63.7 1.9C62.9 1 61.8 0.5 60.5 0.5 59.2 0.5 58.1 1 57.3 1.9L24.9 34.2c-1.5 1.4-1.8 3.1-1 5 0.8 1.9 2.2 2.9 4.3 2.9z" class="a"/></g></svg></button>
-    </label>
+    </label><button type="submit" id="sendSchemFile" disabled='true'><svg id="save_button" xmlns="http://www.w3.org/2000/svg" width="31" height="28" viewBox="0 0 30.8 28"><style>.a{fill:#fff}</style><g transform="matrix(0.24840608 0 0 0.24777994 0.37642834 0.3754795)" stroke-width="4"><path d="m118.5 86c-1.3-0.9-3-1.4-4.9-1.4H82.8 38.2 7.4c-1.9 0-3.6 0.5-4.9 1.4C1.2 86.9 0.5 88 0.5 89.3v15.6c0 1.3 0.7 2.4 2 3.3 1.3 0.9 3 1.4 4.9 1.4h106.2c1.9 0 3.6-0.5 4.9-1.4 1.3-0.9 2-2 2-3.3V89.3c0-1.3-0.7-2.4-2-3.3z" class="a"/><path d="m28.2 42h18.5v32.3c0 1.2 0.5 2.3 1.4 3.2 0.9 0.9 2 1.4 3.2 1.4h18.5c1.2 0 2.3-0.5 3.2-1.4 0.9-0.9 1.4-2 1.4-3.2V42h18.5c2 0 3.4-1 4.3-2.9 0.8-1.9 0.5-3.5-1-5L63.7 1.9C62.9 1 61.8 0.5 60.5 0.5 59.2 0.5 58.1 1 57.3 1.9L24.9 34.2c-1.5 1.4-1.8 3.1-1 5 0.8 1.9 2.2 2.9 4.3 2.9z" class="a"/></g></svg>
+    </button>
 </form>
 
 <script>
 
 document.getElementById("schemLoader").onchange = function(event){
 
-  input = document.getElementById("schemLoader");
-
-  fsend = document.getElementById("sendSchemFile");
-  finfo = document.getElementById("spanFile");
+  var input = document.getElementById("schemLoader");
+  var fsend = document.getElementById("sendSchemFile");
+  var finfo = document.getElementById("spanFile");
 
   schemFile = input.files[0];
   schemSize = schemFile.size/1024;
@@ -153,9 +57,34 @@ document.getElementById("schemLoader").onchange = function(event){
 
 </script>
 
+
 </div>
 
 {% endif %}
 
+<script>
+
+var files = document.querySelectorAll('ul li');
+var filename = document.getElementById('mine_file');
+
+console.log(files);
+
+for(i = 0 ; i < files.length; i++){
+
+
+ files[i].onmouseenter = function(e) {
+  
+  filename.innerHTML = e.srcElement.innerHTML.split('.')[0];
+
+ };
+
+ files[i].onmouseleave = function(e) {
+  
+  filename.innerHTML = "&lt;filename&gt;";
+
+ };
+}
+
+</script>
 
 {% endblock %}

@@ -225,28 +225,25 @@ function setupBlockly(onReady) {
   require.ensure(['./blockly'], function() {
     Blockly = require('./blockly');
 
-    require('./fr_custom.js');
     require('./customblocks.js');
     require('./customblocks-javascript-generator.js');
+    require('./fr_custom.js');
     require('./fr.js');
     
     workspace = Blockly.inject('blocklyDiv',
                                    {
                                        toolbox: full_toolbox,
-                                       media: "/static/blockly/",
                                        trashcan: true,
                                        zoom:
                                            {controls: true,
-                                            wheel: true,
+                                            wheel: false,
                                             startScale: 1.0,
-                                            maxScale: 3,
-                                            minScale: 0.3,
+                                            maxScale: 2,
+                                            minScale: 0.2,
                                             scaleSpeed: 1.2},
-                                       grid:
-                                            {spacing: 40,
-                                             length: 5,
-                                             colour: '#aaa',
-                                             snap: true},
+                                       grid:false,
+				       sounds:false,
+				       collapse:true
                                    });
 
     workspace.addChangeListener(function() {
