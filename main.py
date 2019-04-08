@@ -28,6 +28,7 @@ def get_file_content(file_path):
   except:
     return ""
 
+
 def set_file_content(file_path, txt):
 
   playername, filename = file_path.split('/')
