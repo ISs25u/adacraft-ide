@@ -18,3 +18,12 @@ module.exports = {
     ]
   },
 };
+
+module.exports = {
+  entry: './client/js/schematic_loader.js',
+  output: {
+    path: path.join(__dirname, 'static'),
+    filename: 'bundle_schematic.js',
+    publicPath: '/static/'
+  }
+};

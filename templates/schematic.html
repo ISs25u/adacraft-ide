@@ -43,7 +43,7 @@ document.getElementById("schemLoader").onchange = function(event){
   schemFile = input.files[0];
   schemSize = schemFile.size/1024;
 
-  if (schemSize > 128){
+  if (schemSize > 64){
     fsend.disabled = true;
     finfo.style.color = "red";
     finfo.innerHTML = "fichier trop volumineux";
@@ -72,13 +72,13 @@ console.log(files);
 for(i = 0 ; i < files.length; i++){
 
 
- files[i].onmouseenter = function(e) {
+ files[i].onmouseenter = function(e){
   
   filename.innerHTML = e.srcElement.innerHTML.split('.')[0];
 
  };
 
- files[i].onmouseleave = function(e) {
+ files[i].onmouseleave = function(e){
   
   filename.innerHTML = "&lt;filename&gt;";
 
