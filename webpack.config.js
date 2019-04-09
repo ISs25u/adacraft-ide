@@ -1,29 +1,21 @@
+var path = require('path')
 var CopyWebpackPlugin = require('copy-webpack-plugin');
-var path = require('path');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: './client/js/entry.js',
+  mode: 'production',
+  entry: {adacraft: './client/js/e_adacraft.js',
+          schematic: './client/js/e_schematic.js'},
   output: {
     path: path.join(__dirname, 'static'),
-    filename: 'bundle.js',
-    pathinfo: (process.env.NODE_ENV !== 'production'),
-    publicPath: '/static/'
+    filename: '[name].js',
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new CopyWebpackPlugin([{ from: 'node_modules/blockly/media', to: 'blockly' }]),
   ],
-  module: {
-    rules: [
-      { test: /\.css$/, loader: "style-loader!css-loader" },
-    ]
-  },
-};
-
-module.exports = {
-  entry: './client/js/schematic_loader.js',
-  output: {
-    path: path.join(__dirname, 'static'),
-    filename: 'bundle_schematic.js',
-    publicPath: '/static/'
+  optimization: {
+    minimize: false
   }
 };
+
